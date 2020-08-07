@@ -1,0 +1,90 @@
+<resources>
+    <string name="app_name">LtVideo</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="dialog_title_choose_image_source">选择你的图片来源</string>
+    <string name="get_image_from_camera">相机</string>
+    <string name="get_image_from_gallery">相册</string>
+
+    <string-array name="dialog_item_choose_image_source">
+        <item>@string/get_image_from_camera</item>
+        <item>@string/get_image_from_gallery</item>
+    </string-array>
+
+    <string-array name="decal_bitmap_items">
+<!--        <item>assets://decals/decal_abdominalmuscles.png</item>-->
+<!--        <item>assets://decals/decal_baymaxandjianjian.png</item>-->
+<!--        <item>assets://decals/decal_beaddicted.png</item>-->
+<!--        <item>assets://decals/decal_beastmode.png</item>-->
+<!--        <item>assets://decals/decal_beyourself.png</item>-->
+<!--        <item>assets://decals/decal_broccoli.png</item>-->
+<!--        <item>assets://decals/decal_captainamerica.png</item>-->
+<!--        <item>assets://decals/decal_catwoman.png</item>-->
+<!--        <item>assets://decals/decal_cute.png</item>-->
+<!--        <item>assets://decals/decal_darkcuisine.png</item>-->
+<!--        <item>assets://decals/decal_death.png</item>-->
+<!--        <item>assets://decals/decal_dontwait.png</item>-->
+
+
+    </string-array>
+    <integer-array name="decal_bitmap_items_id">
+
+
+    </integer-array>
+
+    <string-array name="decal_des_items">
+        <item>Awesome</item>
+        <item>蝙蝠侠</item>
+        <item>Beast Mode</item>
+        <item>猫女</item>
+        <item>Fall In Love</item>
+        <item>FT魔都</item>
+        <item>Girl On Fire</item>
+        <item>It\'s FitTime</item>
+        <item>Megabot Fight</item>
+        <item>Megabot Normal</item>
+        <item>Moring</item>
+        <item>Push</item>
+        <item>Run</item>
+        <item>Run出无限</item>
+        <item>To Be Batman</item>
+        <item>V字复仇者</item>
+        <item>上瘾了</item>
+        <item>举铁</item>
+        <item>你该减脂了</item>
+        <item>做自己</item>
+        <item>健康自然</item>
+        <item>别等了</item>
+        <item>吃是一种信仰</item>
+        <item>呐喊</item>
+        <item>大白和健健</item>
+        <item>带土</item>
+        <item>带我飞</item>
+        <item>我的热身组</item>
+        <item>戳</item>
+        <item>斗志</item>
+        <item>无脸男</item>
+        <item>暗黑料理</item>
+        <item>死神</item>
+        <item>泛合金盾牌</item>
+        <item>Loki</item>
+        <item>火力全开</item>
+        <item>爆炸头西兰花</item>
+        <item>牛排太郎</item>
+        <item>猛男出没</item>
+        <item>维密天使</item>
+        <item>绿巨人</item>
+        <item>美国队长</item>
+        <item>能量核心</item>
+        <item>能量环</item>
+        <item>腹肌</item>
+        <item>萌</item>
+        <item>躁起来</item>
+        <item>金刚狼</item>
+        <item>雷神之锤</item>
+        <item>钢铁侠</item>
+    </string-array>
+    <string name="title_activity_page">PageActivity</string>
+</resources>

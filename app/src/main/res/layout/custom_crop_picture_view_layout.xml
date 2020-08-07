@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/parentLayout"
+    android:background="#000000">
+
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/erciyuan" />
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#63000000" />
+
+    <View
+        android:id="@+id/cropRect"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_gravity="center_vertical"
+        android:background="@drawable/shape_rectangle_border_w2_color_white_bg" />
+
+
+</FrameLayout>

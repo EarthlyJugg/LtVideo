@@ -1,0 +1,49 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aspect="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/deep_grey"
+    android:orientation="vertical"
+    tools:context=".tietu.MainActivity">
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="clickCameraButton"
+        android:text="打开相机？" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_400">
+
+        <ImageView
+            android:id="@+id/showImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/erciyuan" />
+
+
+        <com.lingtao.ltvideo.tietu.DecalView
+            android:id="@+id/main_decal_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible" />
+
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/tv_main_decal"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/white"
+        android:gravity="center"
+        android:text="贴纸" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/decal_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>
