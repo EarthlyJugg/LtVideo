@@ -67,7 +67,54 @@ public class DecalQueue2<T> {
 
     }
 
-    public void getSwap(int keyIndex) {
+    public void getSwap(T bean) {
+        if (getNode(bean) == null) {
+            throw new RuntimeException("bean 不存在");
+        }
+
+        //如果队列中只有一个数据，就不进行交换了
+        //first.index == keyIndex  调整的节点已在表头，也不需要调整
+        if (first == null || size == 1 || first.t.equals(bean)) {
+            return;
+        }
+
+
+        if (size == 2) {
+            Node<T> tmpFirst = getFirst();
+            Node<T> second = tmpFirst.next;
+
+            second.pre = null;
+            second.next = tmpFirst;
+            tmpFirst.pre = second;
+            tmpFirst.next = null;
+
+            first = second;
+        } else {
+
+            Node<T> curNode = getNode(bean);
+            Node<T> tmpFirst = getFirst();
+            if (curNode.next == null) {//说明操作的节点在队尾
+
+                curNode.pre.next = null;
+                curNode.pre = null;
+                curNode.next = tmpFirst;
+
+                tmpFirst.pre = curNode;
+                first = curNode;
+
+            } else {//操作的节点在队中
+                curNode.pre.next = curNode.next;
+                curNode.next.pre = curNode.pre;
+                curNode.pre = null;
+                curNode.next = tmpFirst;
+                tmpFirst.pre = curNode;
+                first = curNode;
+            }
+
+        }
+    }
+
+    private void getSwap(int keyIndex) {
         if (getNode(keyIndex) == null) {
             throw new RuntimeException("下标越界");
         }
@@ -132,6 +179,18 @@ public class DecalQueue2<T> {
         return null;
     }
 
+    private Node<T> getNode(T t) {
+        Node<T> node = this.first;
+        do {
+            if (node.t.equals(t)) {
+                System.out.println("比较相等");
+                return node;
+            }
+            node = node.next;
+        } while (node != null);
+        return null;
+    }
+
 
     public void printf() {
 
@@ -149,7 +208,6 @@ public class DecalQueue2<T> {
             System.out.println(first.t.toString());
         }
     }
-
 
 
     public int getSize() {

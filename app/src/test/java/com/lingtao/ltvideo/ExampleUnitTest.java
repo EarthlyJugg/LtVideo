@@ -23,11 +23,11 @@ public class ExampleUnitTest {
         decalQueue2.put("4");
         decalQueue2.printf();
         System.out.println();
-        decalQueue2.getSwap(1);
+        decalQueue2.getSwap("1");
         System.out.println();
         decalQueue2.printf();
 
-        decalQueue2.getSwap(0);
+        decalQueue2.getSwap("2");
         System.out.println();
         decalQueue2.printf();
     }
