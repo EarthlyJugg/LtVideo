@@ -1,9 +1,13 @@
 package com.lingtao.ltvideo;
 
+import com.lingtao.ltvideo.struct.DecalQueue;
+
 public class DecalQueue2<T> {
 
     private Node<T> first;//双向链表的头
     private int size = 0;
+
+    //这个变量没用了
     private int indexs = 0;//这里代表每个添加进来的下标，调整队列后，每个节点对应的index 是不会变的
 
     public void put(T t) {
@@ -26,19 +30,18 @@ public class DecalQueue2<T> {
         preNode.next = lastNode;
 
         //添加数据也要调整
-        addSwap(size - 1);
+        addSwap(t);
 
     }
 
 
-    private void addSwap(int index) {// 2
+    private void addSwap(T t) {// 2
         if (first.next == null) {//如果队列中只有一个数据，就不进行交换了
             System.out.println("队列中只有一个数据，就不进行交换");
             return;
         }
 
         if (first.next.next == null) {
-            System.out.println("队列中只有二个数据");
             Node<T> tmpFirst = getFirst();
             Node<T> second = tmpFirst.next;
 
@@ -51,7 +54,7 @@ public class DecalQueue2<T> {
             return;
         } else {
             Node<T> tmpFirst = getFirst();
-            Node<T> curNode = getNode(index);
+            Node<T> curNode = getNode(t);
 
 
             curNode.pre.next = null;
@@ -67,14 +70,19 @@ public class DecalQueue2<T> {
 
     }
 
-    public void getSwap(T bean) {
+    /**
+     * 置顶
+     *
+     * @param bean
+     */
+    public void stickTop(T bean) {
         if (getNode(bean) == null) {
             throw new RuntimeException("bean 不存在");
         }
 
         //如果队列中只有一个数据，就不进行交换了
         //first.index == keyIndex  调整的节点已在表头，也不需要调整
-        if (first == null || size == 1 || first.t.equals(bean)) {
+        if (first == null || size == 1 || first.t == bean) {
             return;
         }
 
@@ -114,48 +122,31 @@ public class DecalQueue2<T> {
         }
     }
 
-    private void getSwap(int keyIndex) {
-        if (getNode(keyIndex) == null) {
-            throw new RuntimeException("下标越界");
-        }
-        //如果队列中只有一个数据，就不进行交换了
-        //first.index == keyIndex  调整的节点已在表头，也不需要调整
-        if (first == null || size == 1 || first.index == keyIndex) {
+    public void remove(T t) {
+        Node<T> node = getNode(t);
+        if (node == null) {
             return;
         }
-
-
-        if (size == 2) {
+        if (node == first) {//如果删除的头节点
             Node<T> tmpFirst = getFirst();
-            Node<T> second = tmpFirst.next;
-
-            second.pre = null;
-            second.next = tmpFirst;
-            tmpFirst.pre = second;
-            tmpFirst.next = null;
-
-            first = second;
-        } else {
-
-            Node<T> curNode = getNode(keyIndex);
-            Node<T> tmpFirst = getFirst();
-            if (curNode.next == null) {//说明操作的节点在队尾
-
-                curNode.pre.next = null;
-                curNode.pre = null;
-                curNode.next = tmpFirst;
-
-                tmpFirst.pre = curNode;
-                first = curNode;
-
-            } else {//操作的节点在队中
-                curNode.pre.next = curNode.next;
-                curNode.next.pre = curNode.pre;
-                curNode.pre = null;
-                curNode.next = tmpFirst;
-                tmpFirst.pre = curNode;
-                first = curNode;
+            Node<T> next = tmpFirst.next;
+            if (next != null) {
+                next.pre = null;
             }
+            tmpFirst.next = null;
+            first = next;
+            size--;
+        } else {
+            Node<T> preNode = node.pre;//如果不是头节点，这个preNode 绝对不可能为空
+            Node<T> nextNode = node.next;
+
+            preNode.next = nextNode;
+            if (nextNode != null) {
+                nextNode.pre = preNode;
+            }
+            node.pre = null;
+            node.next = null;
+            size--;
 
         }
 
@@ -166,24 +157,10 @@ public class DecalQueue2<T> {
         return first;
     }
 
-
-    private Node<T> getNode(int index) {
-
-        Node<T> node = this.first;
-        do {
-            if (node.index == index) {
-                return node;
-            }
-            node = node.next;
-        } while (node != null);
-        return null;
-    }
-
     private Node<T> getNode(T t) {
         Node<T> node = this.first;
         do {
-            if (node.t.equals(t)) {
-                System.out.println("比较相等");
+            if (node.t == t) {
                 return node;
             }
             node = node.next;
@@ -213,6 +190,25 @@ public class DecalQueue2<T> {
     public int getSize() {
         return size;
     }
+
+
+    public T next(int index) {
+        if (index >= size) {
+            throw new RuntimeException("长度越界");
+        }
+        int nextIndex = 0;
+        Node<T> node = getFirst();
+        do {
+            if (nextIndex == index) {
+                return node.t;
+            }
+            nextIndex++;
+            node = node.next;
+        } while (node != null);
+
+        return null;
+    }
+
 
     public static class Node<T> {
         T t;

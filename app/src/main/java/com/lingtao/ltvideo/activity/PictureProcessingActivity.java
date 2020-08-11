@@ -77,7 +77,10 @@ public class PictureProcessingActivity extends AppCompatActivity implements View
         adapter.setOnItemClick(new ColorMatrixAdapter.onItemClick() {
             @Override
             public void onClick(ColorMatrixBean bean, int position) {
-                imageView.setImageBitmap(handleColorRotateBmp(bean.getColorMatrix()));
+                Bitmap bmp = handleColorRotateBmp(bean.getColorMatrix());
+                if (bmp != null) {
+                    imageView.setImageBitmap(bmp);
+                }
             }
         });
     }
@@ -168,6 +171,9 @@ public class PictureProcessingActivity extends AppCompatActivity implements View
     private Bitmap handleColorRotateBmp(ColorMatrix colorMatrix) {
 
         Bitmap originBmp = BitmapFactory.decodeFile(picturePath);
+        if (originBmp == null) {
+            return null;
+        }
         Bitmap tempBmp = Bitmap.createBitmap(originBmp.getWidth(), originBmp.getHeight(), Bitmap.Config.ARGB_8888);
         // 创建一个相同尺寸的可变的位图区,用于绘制调色后的图片
         Canvas canvas = new Canvas(tempBmp); // 得到画笔对象
@@ -183,7 +189,7 @@ public class PictureProcessingActivity extends AppCompatActivity implements View
 
     public void caijian(View view) {
         if (true) {
-            PictureCropActivity.start(this);
+//            PictureCropActivity.start(this);
             return;
         }
         Uri uri = Uri.fromFile(new File(picturePath));

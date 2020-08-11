@@ -10,7 +10,6 @@ import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
-
 import androidx.annotation.Nullable;
 
 import com.lingtao.ltvideo.R;
@@ -20,7 +19,7 @@ import com.lingtao.ltvideo.util.LogUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DecalView extends BaseView {
+public class DecalView2 extends BaseView {
 
     private final Paint mPaintForLineAndCircle;
 
@@ -28,23 +27,23 @@ public class DecalView extends BaseView {
     private int transformTag = 0;//
     private int deleteTag = 0;  //当前触摸点是否在某一个贴纸的删除按钮范围内
 
+    private boolean hintBroder = false;//是否隐藏图片的边框
 
     private Bitmap deleteIcon;
 
 
-    private List<ImageGroup> mDecalImageGroupList = new ArrayList<>();
-//    private DecalQueue<ImageGroup> mDecalImageGroupList = new DecalQueue<>();
+    private DecalQueue<ImageGroup> mDecalImageGroupList = new DecalQueue<>();
 
 
-    public DecalView(Context context) {
+    public DecalView2(Context context) {
         this(context, null);
     }
 
-    public DecalView(Context context, @Nullable AttributeSet attrs) {
+    public DecalView2(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public DecalView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public DecalView2(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         mPaintForLineAndCircle = new Paint();
         mPaintForLineAndCircle.setAntiAlias(true);
@@ -58,7 +57,8 @@ public class DecalView extends BaseView {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        for (ImageGroup imageGroup : mDecalImageGroupList) {
+        for (int i = mDecalImageGroupList.size() - 1; i >= 0; i--) {
+            ImageGroup imageGroup = mDecalImageGroupList.next(i);
             float[] points = getBitmapPoints(imageGroup);
             float x1 = points[0];
             float y1 = points[1];//左上
@@ -72,16 +72,18 @@ public class DecalView extends BaseView {
             float x4 = points[6];
             float y4 = points[7];//右下
 
-            canvas.drawLine(x1, y1, x2, y2, mPaintForLineAndCircle);
-            canvas.drawLine(x2, y2, x4, y4, mPaintForLineAndCircle);
-            canvas.drawLine(x4, y4, x3, y3, mPaintForLineAndCircle);
-            canvas.drawLine(x3, y3, x1, y1, mPaintForLineAndCircle);
-
-            canvas.drawCircle(x2, y2, 40, mPaintForLineAndCircle);
-            canvas.drawBitmap(deleteIcon, x2 - deleteIcon.getWidth() / 2, y2 - deleteIcon.getHeight() / 2, mPaintForBitmap);
+            if (i == 0 && !hintBroder) {
+                canvas.drawLine(x1, y1, x2, y2, mPaintForLineAndCircle);
+                canvas.drawLine(x2, y2, x4, y4, mPaintForLineAndCircle);
+                canvas.drawLine(x4, y4, x3, y3, mPaintForLineAndCircle);
+                canvas.drawLine(x3, y3, x1, y1, mPaintForLineAndCircle);
+                canvas.drawCircle(x2, y2, 40, mPaintForLineAndCircle);
+                canvas.drawBitmap(deleteIcon, x2 - deleteIcon.getWidth() / 2, y2 - deleteIcon.getHeight() / 2, mPaintForBitmap);
+            }
 
             canvas.drawBitmap(imageGroup.bitmap, imageGroup.matrix, mPaintForBitmap);
         }
+
     }
 
     @Override
@@ -92,10 +94,16 @@ public class DecalView extends BaseView {
                 anchorY = event.getY();//获取点击事件距离控件顶边的距离，即视图坐标
                 moveTag = decalCheck(anchorX, anchorY);
                 deleteTag = deleteCheck(anchorX, anchorY);
-                //当moveTag ！= -1 && deleteTag == -1（触摸点某一个贴纸范围内且不在任何删除按钮范围内）时
+                //当（触摸点某一个贴纸范围内且不在任何删除按钮范围内）时
                 if (moveTag != -1 && deleteTag == -1) {
+                    //TODO 在get 方法中调整了链表，这样 moveTag的值可能就会改变了
                     downMatrix.set(mDecalImageGroupList.get(moveTag).matrix);
                     mode = DRAG;
+                    hintBroder = false;
+                    invalidate();
+                } else if (moveTag == -1) {
+                    hintBroder = true;
+                    invalidate();
                 }
                 break;
 
@@ -104,7 +112,6 @@ public class DecalView extends BaseView {
                 moveTag = decalCheck(event.getX(0), event.getY(0));
                 transformTag = decalCheck(event.getX(1), event.getY(1));
                 /**
-                 * 当moveTag != -1 && transformTag == moveTag && deleteTag == -1
                  * （两个触摸点在同一个贴纸范围内且不在任何删除按钮范围内）
                  */
                 if (moveTag != -1 && transformTag == moveTag && deleteTag == -1) {
@@ -129,14 +136,20 @@ public class DecalView extends BaseView {
                     moveMatrix.postScale(scale, scale, midPoint.x, midPoint.y);// 縮放
                     moveMatrix.postRotate(newRotation, midPoint.x, midPoint.y);// 旋轉
                     if (moveTag != -1) {
-                        mDecalImageGroupList.get(moveTag).matrix.set(moveMatrix);
+                        //因为调整过链表顺序，需要重新获取或者直接拿队列第一个
+//                        moveTag = decalCheck(event.getX(0), event.getY(0));
+//                        mDecalImageGroupList.get(moveTag).matrix.set(moveMatrix);
+                        mDecalImageGroupList.get(0).matrix.set(moveMatrix);
                     }
                     invalidate();
                 } else if (mode == DRAG) {
                     moveMatrix.set(downMatrix);
                     moveMatrix.postTranslate(event.getX() - anchorX, event.getY() - anchorY);// 平移
                     if (moveTag != -1) {
-                        mDecalImageGroupList.get(moveTag).matrix.set(moveMatrix);
+                        //因为调整过链表顺序，需要重新获取,或者直接拿队列第一个
+//                        moveTag = decalCheck(anchorX, anchorY);
+//                        mDecalImageGroupList.get(moveTag).matrix.set(moveMatrix);
+                        mDecalImageGroupList.get(0).matrix.set(moveMatrix);
                     }
                     invalidate();
                 }
@@ -195,17 +208,28 @@ public class DecalView extends BaseView {
     }
 
     private int deleteCheck(float x, float y) {
-        for (int i = 0; i < mDecalImageGroupList.size(); i++) {
-            if (circleCheck(mDecalImageGroupList.get(i), x, y)) {
-                return i;
+//        for (int i = 0; i < mDecalImageGroupList.size(); i++) {
+//            if (circleCheck(mDecalImageGroupList.next(i), x, y)) {
+//                return i;
+//            }
+//        }
+//        return -1;
+        if (mDecalImageGroupList.size() > 0) {
+            if (circleCheck(mDecalImageGroupList.next(0), x, y)) {
+                return 0;
             }
         }
         return -1;
     }
 
+    /**
+     * 获取当前点击点的贴纸
+     *
+     * @return
+     */
     private int decalCheck(float x, float y) {
         for (int i = 0; i < mDecalImageGroupList.size(); i++) {
-            if (pointCheck(mDecalImageGroupList.get(i), x, y)) {
+            if (pointCheck(mDecalImageGroupList.next(i), x, y)) {
                 return i;
             }
         }
@@ -225,7 +249,7 @@ public class DecalView extends BaseView {
 
         imageGroupTemp.matrix.postTranslate(transX, transY);
         imageGroupTemp.matrix.postScale(0.5f, 0.5f, getWidth() / 2, getHeight() / 2);
-        mDecalImageGroupList.add(imageGroupTemp);
+        mDecalImageGroupList.put(imageGroupTemp);
         postInvalidate();
     }
 }

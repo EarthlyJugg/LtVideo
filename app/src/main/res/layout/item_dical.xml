@@ -9,17 +9,9 @@
     <ImageView
         android:id="@+id/iv_decal"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_300"
-        android:layout_marginLeft="@dimen/dp_20"
-        android:layout_marginRight="@dimen/dp_20"
+        android:layout_height="match_parent"
+        android:scaleType="centerInside"
         android:src="@mipmap/decal_beaddicted" />
 
-    <TextView
-        android:id="@+id/tv_des"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_48"
-        android:layout_marginTop="4dp"
-        android:gravity="center"
-        android:textColor="#333333" />
 
 </LinearLayout>

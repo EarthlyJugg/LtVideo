@@ -2,11 +2,6 @@ package com.lingtao.ltvideo;
 
 import org.junit.Test;
 
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Set;
-
 /**
  * Example local unit test, which will execute on the development machine (host).
  *
@@ -15,20 +10,34 @@ import java.util.Set;
 public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() {
-        DecalQueue2<String> decalQueue2 = new DecalQueue2();
+        DecalQueue2<Decal> decalQueue2 = new DecalQueue2();
 
-        decalQueue2.put("1");
-        decalQueue2.put("2");
-        decalQueue2.put("3");
-        decalQueue2.put("4");
-        decalQueue2.printf();
-        System.out.println();
-        decalQueue2.getSwap("1");
-        System.out.println();
-        decalQueue2.printf();
+        Decal decal1 = new Decal("1");
+        Decal decal2 = new Decal("2");
+        Decal decal3 = new Decal("3");
+        Decal decal4 = new Decal("4");
+        decalQueue2.put(decal1);
+        decalQueue2.put(decal2);
+        decalQueue2.put(decal3);
+        decalQueue2.put(decal4);
 
-        decalQueue2.getSwap("2");
-        System.out.println();
         decalQueue2.printf();
+        System.out.println("----------------");
+        decalQueue2.stickTop(decal1);
+        decalQueue2.printf();
+        System.out.println("----------------");
+
+        decalQueue2.remove(decal1);
+        decalQueue2.printf();
+        System.out.println("----------------");
+
+
+        decalQueue2.put(decal2);
+        decalQueue2.put(decal3);
+        decalQueue2.put(decal4);
+
+        decalQueue2.printf();
+        System.out.println("----------------");
+
     }
 }

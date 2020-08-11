@@ -9,4 +9,11 @@
             <enum name="life_center_inside" value="1" />
         </attr>
     </declare-styleable>
+    <declare-styleable name="MatrixImageView">
+
+        <attr name="matrix_top" format="boolean" />
+        <attr name="matrix_bitmap" format="reference" />
+        <attr name="matrix_color" format="color" />
+
+    </declare-styleable>
 </resources>
