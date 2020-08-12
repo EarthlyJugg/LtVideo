@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/deep_grey"
     android:orientation="vertical"
-    tools:context=".tietu.MainActivity">
+    tools:context=".tietu.PictureHodlerMainActivity">
 
 
     <Button

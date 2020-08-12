@@ -4,19 +4,83 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/toCameraPreview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="预览摄像头" />
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="openPhone"
-        android:text="打开相册" />
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="openPhone"
+                android:text="图片滤镜" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="openPictureCrop"
+                android:text="图片裁剪" />
+
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="openPictureHodler"
+                android:text="图片集中处理" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="toPageActivity"
+                android:text="PageActivity" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="toStickyScrollViewActivity"
+                android:text="滚定顶部固定" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="toStickyScrollViewActivity2"
+                android:text="滚定顶部固定之单个" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="toStickyScrollViewActivity3"
+                android:text="滚定顶部固定之RecyclerView" />
+
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/dp_20"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/toCameraPreview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="预览摄像头" />
+
+
+    </LinearLayout>
 
 </LinearLayout>

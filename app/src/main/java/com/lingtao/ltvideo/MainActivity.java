@@ -9,8 +9,14 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.lingtao.ltvideo.activity.CameraPreviewActivity;
+import com.lingtao.ltvideo.activity.PictureCropActivity;
 import com.lingtao.ltvideo.activity.PictureProcessingActivity;
+import com.lingtao.ltvideo.activity.StickyScrollViewActivity;
+import com.lingtao.ltvideo.activity.StickyScrollViewActivity2;
+import com.lingtao.ltvideo.activity.StickyScrollViewActivity3;
 import com.lingtao.ltvideo.bean.PictureBean;
+import com.lingtao.ltvideo.tietu.PageActivity;
+import com.lingtao.ltvideo.tietu.PictureHodlerMainActivity;
 import com.lingtao.ltvideo.util.LogUtils;
 import com.wildma.pictureselector.PictureSelector;
 
@@ -52,4 +58,28 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void openPictureCrop(View view) {
+        PictureCropActivity.start(this);
+    }
+
+    public void openPictureHodler(View view) {
+        PictureHodlerMainActivity.start(this);
+    }
+
+    public void toPageActivity(View view) {
+        PageActivity.start(this);
+    }
+
+    public void toStickyScrollViewActivity(View view) {
+        StickyScrollViewActivity.start(this);
+    }
+
+    public void toStickyScrollViewActivity2(View view) {
+        StickyScrollViewActivity2.start(this);
+
+    }
+
+    public void toStickyScrollViewActivity3(View view) {
+        StickyScrollViewActivity3.start(this);
+    }
 }

@@ -15,31 +15,27 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.PictureCropActivity"></activity>
 
-        <activity android:name=".activity.TestActivity"></activity>
-        <activity android:name=".activity.CameraPreviewActivity" />
-        <activity android:name=".MainActivity"></activity>
-        <activity
-            android:name="com.yalantis.ucrop.UCropActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".tietu.MainActivity">
-
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.MatrixActivity">
-
-        </activity>
-        <activity android:name=".activity.PictureProcessingActivity">
-
-
-        </activity>
-
+        <activity
+            android:name="com.yalantis.ucrop.UCropActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name=".activity.PictureCropActivity" />
+        <activity android:name=".activity.TestActivity" />
+        <activity android:name=".activity.CameraPreviewActivity" />
+        <activity android:name=".tietu.PictureHodlerMainActivity" />
+        <activity android:name=".activity.MatrixActivity" />
+        <activity android:name=".activity.PictureProcessingActivity" />
+        <activity android:name=".activity.StickyScrollViewActivity" />
+        <activity android:name=".activity.StickyScrollViewActivity2" />
+        <activity android:name=".activity.StickyScrollViewActivity3" />
         <activity android:name=".tietu.PageActivity" />
         <activity android:name=".tietu.MediaPickerActivity" />
     </application>

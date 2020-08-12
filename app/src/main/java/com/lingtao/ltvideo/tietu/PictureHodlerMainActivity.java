@@ -14,15 +14,12 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -40,7 +37,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends AppCompatActivity  {
+public class PictureHodlerMainActivity extends AppCompatActivity  {
 
 
     @BindView(R.id.showImage)
@@ -61,6 +58,11 @@ public class MainActivity extends AppCompatActivity  {
     private List<ColorMatrixBean> matrixBeanList;
     private String picturePath;
 
+
+    public static void start(Context context) {
+        Intent starter = new Intent(context, PictureHodlerMainActivity.class);
+        context.startActivity(starter);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -343,7 +345,7 @@ public class MainActivity extends AppCompatActivity  {
             LogUtils.d("onBindViewHolder: " + bean.getName());
             holder.name.setOnClickListener(v -> {
 //                Toast.makeText(MainActivity.this, bean.getName(), Toast.LENGTH_SHORT).show();
-                ToastUtil.show(MainActivity.this, bean.getName());
+                ToastUtil.show(PictureHodlerMainActivity.this, bean.getName());
                 changeFilter(bean.getColorMatrix());
             });
             Bitmap bmp = handleColorRotateBmp(bean.getColorMatrix(), R.drawable.zhengfangxing);
