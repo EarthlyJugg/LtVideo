@@ -9,6 +9,7 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.lingtao.ltvideo.activity.CameraPreviewActivity;
+import com.lingtao.ltvideo.activity.CircleIndicatorViewActivity;
 import com.lingtao.ltvideo.activity.PictureCropActivity;
 import com.lingtao.ltvideo.activity.PictureProcessingActivity;
 import com.lingtao.ltvideo.activity.StickyScrollViewActivity;
@@ -81,5 +82,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void toStickyScrollViewActivity3(View view) {
         StickyScrollViewActivity3.start(this);
+    }
+
+    public void toCircleIndicaorViewActivity(View view) {
+        CircleIndicatorViewActivity.start(this);
     }
 }

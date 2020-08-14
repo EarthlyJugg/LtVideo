@@ -62,6 +62,12 @@
                 android:onClick="toStickyScrollViewActivity3"
                 android:text="滚定顶部固定之RecyclerView" />
 
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="toCircleIndicaorViewActivity"
+                android:text="指示控件" />
+
 
         </LinearLayout>
 

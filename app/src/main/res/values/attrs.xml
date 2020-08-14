@@ -24,4 +24,12 @@
         <attr name="stuckShadowDrawable" format="reference" />
 
     </declare-styleable>
+
+    <declare-styleable name="OvalIndicatorView">
+        <attr name="indicatorRadius" format="dimension"/>
+        <attr name="indicatorSpace" format="dimension"/>
+        <attr name="indicatorColor" format="color"/>
+        <attr name="indicatorSelectColor" format="color"/>
+        <attr name="enableIndicatorSwitch" format="boolean"/>
+    </declare-styleable>
 </resources>
