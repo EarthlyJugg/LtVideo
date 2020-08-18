@@ -22,6 +22,10 @@ public class GirlItemData implements Parcelable {
         this.id = id;
     }
 
+    public GirlItemData(String url) {
+        this.url = url;
+    }
+
     public GirlItemData(String title, String url, int id, int width, int height, String subtype) {
         this.title = title;
         this.url = url;

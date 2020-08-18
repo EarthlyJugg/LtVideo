@@ -58,10 +58,31 @@ public class ImageFixW extends AppCompatActivity {
 //                .load(R.drawable.zhengfangxing)
 //                .into(imageView);
 
-        for (int i = 0; i < 5; i++) {
-            list.add(new GirlItemData(R.drawable.erciyuan));
-            list.add(new GirlItemData(R.drawable.zhengfangxing));
-            list.add(new GirlItemData(R.drawable.shamo));
+        for (int i = 0; i < 15; i++) {
+//            list.add(new GirlItemData(R.drawable.erciyuan));
+//            list.add(new GirlItemData(R.drawable.zhengfangxing));
+//            list.add(new GirlItemData(R.drawable.shamo));
+
+            list.add(new GirlItemData("https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1950724334,1062157151&fm=26&gp=0.jpg"));
+            list.add(new GirlItemData("https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1154649067,508133021&fm=26&gp=0.jpg"));
+            list.add(new GirlItemData("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2003743442,2569413743&fm=26&gp=0.jpg"));
+            list.add(new GirlItemData("https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=328616222,1885605737&fm=26&gp=0.jpg"));
+            list.add(new GirlItemData("https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2129329738,977954002&fm=26&gp=0.jpg"));
+            list.add(new GirlItemData("https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3360820264,4291928003&fm=26&gp=0.jpg"));
+            list.add(new GirlItemData("https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3459854359,4280605387&fm=26&gp=0.jpg"));
+            list.add(new GirlItemData("https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1186687420,3065979840&fm=26&gp=0.jpg"));
+            list.add(new GirlItemData("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1002558273,2690237496&fm=26&gp=0.jpg"));
+            list.add(new GirlItemData("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1115399930,2493026341&fm=26&gp=0.jpg"));
+            list.add(new GirlItemData("https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1735942010,1636519337&fm=26&gp=0.jpg"));
+            list.add(new GirlItemData("https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3289985909,1312058910&fm=26&gp=0.jpg"));
+            list.add(new GirlItemData("https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1460715933,4029459174&fm=26&gp=0.jpg"));
+            list.add(new GirlItemData("https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2927359757,431647188&fm=26&gp=0.jpg"));
+            list.add(new GirlItemData("https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1732264759,4009793510&fm=26&gp=0.jpg"));
+            list.add(new GirlItemData("https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2172609652,1986930844&fm=26&gp=0.jpg"));
+            list.add(new GirlItemData("https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1334598582,2311927740&fm=26&gp=0.jpg"));
+            list.add(new GirlItemData("https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2648979847,3158248866&fm=26&gp=0.jpg"));
+            list.add(new GirlItemData("https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1080916668,1617453055&fm=26&gp=0.jpg"));
+            list.add(new GirlItemData("https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2617563084,2461921307&fm=26&gp=0.jpg"));
         }
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);

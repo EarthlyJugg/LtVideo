@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.lingtao.ltvideo.activity.CameraPreviewActivity;
+import com.lingtao.ltvideo.activity.CardViewActivity;
 import com.lingtao.ltvideo.activity.CircleIndicatorViewActivity;
 import com.lingtao.ltvideo.activity.ImageFixW;
 import com.lingtao.ltvideo.activity.PictureCropActivity;
@@ -117,5 +118,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void toImageFixW(View view) {
         ImageFixW.start(this);
+    }
+
+    public void toCardViewActivity(View view) {
+        CardViewActivity.start(this);
     }
 }

@@ -39,7 +39,7 @@ public class GirlAdapter extends RecyclerView.Adapter<GirlAdapter.ViewHodlder> {
         ScaleImageView imageView = holder.scaleImageView;
         GirlItemData girlItemData = list.get(position);
         imageView.setInitSize(girlItemData.getWidth(), girlItemData.getHeight());
-        ImageLoader.load(context, girlItemData.getId(), imageView);
+        ImageLoader.load(context, girlItemData.getUrl(), imageView);
     }
 
     @Override

@@ -44,7 +44,7 @@ public class ImageService extends IntentService {
             return;
         }
         for (GirlItemData data : datas) {
-            Bitmap bitmap = ImageLoader.load(this, data.getId());
+            Bitmap bitmap = ImageLoader.load(this, data.getUrl());
             if (bitmap != null) {
                 data.setWidth(bitmap.getWidth());
                 data.setHeight(bitmap.getHeight());

@@ -32,11 +32,26 @@ public class ScrollerViewAdapter extends RecyclerView.Adapter<ScrollerViewViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ScrollerViewViewHolder holder, int position) {
-
+        holder.itemView.setOnClickListener(v -> {
+            if (onItemClickListener != null) {
+                onItemClickListener.onItemClick(position);
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         return list == null ? 0 : list.size();
+    }
+
+
+    private OnItemClickListener onItemClickListener;
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
+
+    public interface OnItemClickListener{
+        void onItemClick(int position);
     }
 }

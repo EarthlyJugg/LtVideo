@@ -16,6 +16,8 @@
             android:layout_width="match_parent"
             android:layout_height="280dp"
             android:background="@android:color/holo_blue_bright"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:gravity="center"
             android:text="zhang phil"
             android:textColor="@android:color/white" />
