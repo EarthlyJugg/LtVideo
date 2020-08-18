@@ -69,6 +69,31 @@
                 android:text="指示控件" />
 
 
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="toSwipeCaptchaViewActivity"
+                android:text="滑动拼图控件" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="toXfermodeViewActivity"
+                android:text="Xfermode" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="qihangdashabi"
+                android:text="启航大傻逼" />
+
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="toImageFixW"
+                android:text="图片宽度固定，高度自适应" />
+
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
@@ -85,6 +110,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="预览摄像头" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="100dp" />
 
 
     </LinearLayout>

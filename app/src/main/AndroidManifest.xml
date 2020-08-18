@@ -15,7 +15,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.CircleIndicatorViewActivity"></activity>
+        <activity android:name=".activity.ImageFixW"></activity>
+        <activity android:name=".activity.MainActivity" />
+        <activity android:name=".activity.XfermodeViewActivity" />
+        <activity android:name=".activity.SwipeCaptchaViewActivity" />
+        <activity android:name=".activity.CircleIndicatorViewActivity" />
+        <activity android:name=".activity.CanvasActivity"></activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -38,6 +43,8 @@
         <activity android:name=".activity.StickyScrollViewActivity3" />
         <activity android:name=".tietu.PageActivity" />
         <activity android:name=".tietu.MediaPickerActivity" />
+
+        <service android:name=".service.ImageService" />
     </application>
 
 </manifest>

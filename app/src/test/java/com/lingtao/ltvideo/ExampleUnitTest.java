@@ -10,34 +10,21 @@ import org.junit.Test;
 public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() {
-        DecalQueue2<Decal> decalQueue2 = new DecalQueue2();
-
-        Decal decal1 = new Decal("1");
-        Decal decal2 = new Decal("2");
-        Decal decal3 = new Decal("3");
-        Decal decal4 = new Decal("4");
-        decalQueue2.put(decal1);
-        decalQueue2.put(decal2);
-        decalQueue2.put(decal3);
-        decalQueue2.put(decal4);
-
-        decalQueue2.printf();
-        System.out.println("----------------");
-        decalQueue2.stickTop(decal1);
-        decalQueue2.printf();
-        System.out.println("----------------");
-
-        decalQueue2.remove(decal1);
-        decalQueue2.printf();
-        System.out.println("----------------");
 
 
-        decalQueue2.put(decal2);
-        decalQueue2.put(decal3);
-        decalQueue2.put(decal4);
+        int[] arr = {1, 2, 4, 8, 10, 31};
+        String[] strings = {"A", "B", "C", "D", "E", "F"};
 
-        decalQueue2.printf();
-        System.out.println("----------------");
+        int count = 0;
+        for (int i = 0; i < arr.length - 1; i++) {
+            int first = arr[i];
+            for (int j = i + 1; j < arr.length; j++) {
+                int h16 = first | arr[j];
+                String s = Integer.toHexString(h16);
+                System.out.println(strings[i] + "|" + strings[j] + "=" + s);
+            }
+
+        }
 
     }
 }

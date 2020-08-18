@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.ImageFixW">
+
+    <Button
+        android:layout_width="match_parent"
+        android:text="加载图片"
+        android:id="@+id/loading"
+        android:background="@color/color_f74e00"
+        android:layout_height="wrap_content" />
+
+
+    <ImageView
+        android:layout_width="@dimen/dp_200"
+        android:background="@color/color_f74e00"
+        android:id="@+id/imageView"
+        android:layout_height="wrap_content" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:id="@+id/recyclerView"
+        android:layout_height="wrap_content" />
+
+
+
+
+</LinearLayout>

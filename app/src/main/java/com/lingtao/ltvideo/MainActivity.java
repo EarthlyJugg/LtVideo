@@ -1,25 +1,29 @@
 package com.lingtao.ltvideo;
 
 import android.content.Intent;
-import android.graphics.BitmapFactory;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.lingtao.ltvideo.activity.CameraPreviewActivity;
 import com.lingtao.ltvideo.activity.CircleIndicatorViewActivity;
+import com.lingtao.ltvideo.activity.ImageFixW;
 import com.lingtao.ltvideo.activity.PictureCropActivity;
 import com.lingtao.ltvideo.activity.PictureProcessingActivity;
 import com.lingtao.ltvideo.activity.StickyScrollViewActivity;
 import com.lingtao.ltvideo.activity.StickyScrollViewActivity2;
 import com.lingtao.ltvideo.activity.StickyScrollViewActivity3;
-import com.lingtao.ltvideo.bean.PictureBean;
+import com.lingtao.ltvideo.activity.SwipeCaptchaViewActivity;
+import com.lingtao.ltvideo.activity.XfermodeViewActivity;
 import com.lingtao.ltvideo.tietu.PageActivity;
 import com.lingtao.ltvideo.tietu.PictureHodlerMainActivity;
-import com.lingtao.ltvideo.util.LogUtils;
-import com.wildma.pictureselector.PictureSelector;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,6 +32,8 @@ import butterknife.OnClick;
 public class MainActivity extends AppCompatActivity {
     @BindView(R.id.toCameraPreview)
     Button toCameraPreview;
+    @BindView(R.id.imageView)
+    ImageView imageView;
 
 //    static {
 //        System.loadLibrary("native-lib");
@@ -38,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
+
 
     }
 
@@ -86,5 +94,28 @@ public class MainActivity extends AppCompatActivity {
 
     public void toCircleIndicaorViewActivity(View view) {
         CircleIndicatorViewActivity.start(this);
+    }
+
+    public void toSwipeCaptchaViewActivity(View view) {
+        SwipeCaptchaViewActivity.start(this);
+    }
+
+    public void toXfermodeViewActivity(View view) {
+        XfermodeViewActivity.start(this);
+    }
+
+    public void qihangdashabi(View view) {
+        Bitmap mBmp = Bitmap.createBitmap(500 ,500 , Bitmap.Config.ARGB_8888);
+        Canvas   mBmpCanvas = new Canvas(mBmp);
+        Paint mPaint;
+        mPaint = new Paint();
+        mPaint.setColor(Color.RED);
+        mPaint.setTextSize(100);
+        mBmpCanvas.drawText("启舰大SB",0,100,mPaint);
+        imageView.setImageBitmap(mBmp);
+    }
+
+    public void toImageFixW(View view) {
+        ImageFixW.start(this);
     }
 }

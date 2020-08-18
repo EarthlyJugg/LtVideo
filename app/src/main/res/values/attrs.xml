@@ -32,4 +32,15 @@
         <attr name="indicatorSelectColor" format="color"/>
         <attr name="enableIndicatorSwitch" format="boolean"/>
     </declare-styleable>
+
+    <declare-styleable name="SwipeCaptchaView">
+        <attr name="captchaWidth" format="dimension"/>
+        <attr name="captchaHeight" format="dimension"/>
+        <attr name="matchDeviation" format="dimension"/>
+    </declare-styleable>
+
+    <declare-styleable name="XfermodeView">
+
+        <attr name="src" format="reference" />
+    </declare-styleable>
 </resources>
