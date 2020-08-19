@@ -7,7 +7,6 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Parcelable;
 
-import com.lingtao.ltvideo.bean.GirlItemData;
 import com.lingtao.ltvideo.util.ImageLoader;
 
 import org.greenrobot.eventbus.EventBus;
@@ -21,10 +20,10 @@ public class ImageService extends IntentService {
         super("");
     }
 
-    public static void startService(Context context, List<? extends INetWorkPicture> datas, String subtype) {
+    public static void startService(Context context, List<? extends INetWorkPicture> datas, String callback) {
         Intent intent = new Intent(context, ImageService.class);
         intent.putParcelableArrayListExtra("data", (ArrayList<? extends Parcelable>) datas);
-        intent.putExtra("subtype", subtype);
+        intent.putExtra("callback", callback);
         context.startService(intent);
     }
 
@@ -35,11 +34,11 @@ public class ImageService extends IntentService {
         }
 
         List<? extends INetWorkPicture> datas = intent.getParcelableArrayListExtra("data");
-        String subtype = intent.getStringExtra("subtype");
-        handleGirlItemData(datas, subtype);
+        String callback = intent.getStringExtra("callback");
+        handleGirlItemData(datas, callback);
     }
 
-    private void handleGirlItemData(List<? extends INetWorkPicture> datas, String subtype) {
+    private void handleGirlItemData(List<? extends INetWorkPicture> datas, String callback) {
         if (datas == null || datas.size() == 0) {
             EventBus.getDefault().post("finish");
             return;

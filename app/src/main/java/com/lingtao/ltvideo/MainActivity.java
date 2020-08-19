@@ -23,6 +23,7 @@ import com.lingtao.ltvideo.activity.StickyScrollViewActivity2;
 import com.lingtao.ltvideo.activity.StickyScrollViewActivity3;
 import com.lingtao.ltvideo.activity.SwipeCaptchaViewActivity;
 import com.lingtao.ltvideo.activity.XfermodeViewActivity;
+import com.lingtao.ltvideo.service.IWhileService;
 import com.lingtao.ltvideo.tietu.PageActivity;
 import com.lingtao.ltvideo.tietu.PictureHodlerMainActivity;
 
@@ -122,5 +123,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void toCardViewActivity(View view) {
         CardViewActivity.start(this);
+    }
+
+    public void toIWhileService(View view) {
+
+        startService(new Intent(this, IWhileService.class));
     }
 }

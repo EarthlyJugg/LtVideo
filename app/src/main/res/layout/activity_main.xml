@@ -99,6 +99,11 @@
                 android:layout_height="wrap_content"
                 android:onClick="toCardViewActivity"
                 android:text="卡片式布局" />
+    <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="toIWhileService"
+                android:text="IntentService" />
 
         </LinearLayout>
 
