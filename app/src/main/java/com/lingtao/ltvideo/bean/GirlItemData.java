@@ -3,11 +3,15 @@ package com.lingtao.ltvideo.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.lingtao.ltvideo.service.INetWorkPicture;
+
+import java.io.Serializable;
+
 /**
  * Created by cl on 2018/5/3.
  */
 
-public class GirlItemData implements Parcelable {
+public class GirlItemData implements Parcelable, INetWorkPicture {
     private String title;
     private String url;
     private int id;
@@ -26,14 +30,6 @@ public class GirlItemData implements Parcelable {
         this.url = url;
     }
 
-    public GirlItemData(String title, String url, int id, int width, int height, String subtype) {
-        this.title = title;
-        this.url = url;
-        this.id = id;
-        this.width = width;
-        this.height = height;
-        this.subtype = subtype;
-    }
 
     public String getTitle() {
         return title;
@@ -45,6 +41,26 @@ public class GirlItemData implements Parcelable {
 
     public String getUrl() {
         return url;
+    }
+
+    @Override
+    public String getNetUrl() {
+        return url;
+    }
+
+    @Override
+    public int getRes() {
+        return id;
+    }
+
+    @Override
+    public void onWidth(int width) {
+        this.width = width;
+    }
+
+    @Override
+    public void onHeight(int height) {
+        this.height = height;
     }
 
     public void setUrl(String url) {
@@ -83,6 +99,7 @@ public class GirlItemData implements Parcelable {
         this.subtype = subtype;
     }
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -90,27 +107,27 @@ public class GirlItemData implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.title);
-        dest.writeString(this.url);
-        dest.writeInt(this.id);
-        dest.writeInt(this.width);
-        dest.writeInt(this.height);
-        dest.writeString(this.subtype);
+        dest.writeString(title);
+        dest.writeString(url);
+        dest.writeInt(id);
+        dest.writeInt(width);
+        dest.writeInt(height);
+        dest.writeString(subtype);
     }
 
     protected GirlItemData(Parcel in) {
-        this.title = in.readString();
-        this.url = in.readString();
-        this.id = in.readInt();
-        this.width = in.readInt();
-        this.height = in.readInt();
-        this.subtype = in.readString();
+        title = in.readString();
+        url = in.readString();
+        id = in.readInt();
+        width = in.readInt();
+        height = in.readInt();
+        subtype = in.readString();
     }
 
     public static final Creator<GirlItemData> CREATOR = new Creator<GirlItemData>() {
         @Override
-        public GirlItemData createFromParcel(Parcel source) {
-            return new GirlItemData(source);
+        public GirlItemData createFromParcel(Parcel in) {
+            return new GirlItemData(in);
         }
 
         @Override

@@ -4,6 +4,7 @@ import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.os.Parcelable;
 
 import com.lingtao.ltvideo.bean.GirlItemData;
@@ -20,7 +21,7 @@ public class ImageService extends IntentService {
         super("");
     }
 
-    public static void startService(Context context, List<GirlItemData> datas, String subtype) {
+    public static void startService(Context context, List<? extends INetWorkPicture> datas, String subtype) {
         Intent intent = new Intent(context, ImageService.class);
         intent.putParcelableArrayListExtra("data", (ArrayList<? extends Parcelable>) datas);
         intent.putExtra("subtype", subtype);
@@ -33,24 +34,24 @@ public class ImageService extends IntentService {
             return;
         }
 
-        List<GirlItemData> datas = intent.getParcelableArrayListExtra("data");
+        List<? extends INetWorkPicture> datas = intent.getParcelableArrayListExtra("data");
         String subtype = intent.getStringExtra("subtype");
         handleGirlItemData(datas, subtype);
     }
 
-    private void handleGirlItemData(List<GirlItemData> datas, String subtype) {
-        if (datas.size() == 0) {
+    private void handleGirlItemData(List<? extends INetWorkPicture> datas, String subtype) {
+        if (datas == null || datas.size() == 0) {
             EventBus.getDefault().post("finish");
             return;
         }
-        for (GirlItemData data : datas) {
-            Bitmap bitmap = ImageLoader.load(this, data.getUrl());
+        for (INetWorkPicture data : datas) {
+            Bitmap bitmap = ImageLoader.load(this, data.getNetUrl());
             if (bitmap != null) {
-                data.setWidth(bitmap.getWidth());
-                data.setHeight(bitmap.getHeight());
+                data.onWidth(bitmap.getWidth());
+                data.onHeight(bitmap.getHeight());
             }
-            data.setSubtype(subtype);
         }
+
         EventBus.getDefault().post(datas);
     }
 }
