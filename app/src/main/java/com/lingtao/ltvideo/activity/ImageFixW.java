@@ -3,6 +3,7 @@ package com.lingtao.ltvideo.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -15,6 +16,9 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import com.lingtao.ltvideo.R;
 import com.lingtao.ltvideo.adapter.GirlAdapter;
 import com.lingtao.ltvideo.bean.GirlItemData;
+import com.lingtao.ltvideo.helper.ImageTask;
+import com.lingtao.ltvideo.listener.OnLoadImageSizeListener;
+import com.lingtao.ltvideo.service.INetWorkPicture;
 import com.lingtao.ltvideo.service.ImageService;
 import com.lingtao.ltvideo.util.LogUtils;
 
@@ -30,7 +34,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ImageFixW extends AppCompatActivity {
+public class ImageFixW extends AppCompatActivity implements OnLoadImageSizeListener<List<? extends INetWorkPicture>> {
 
     @BindView(R.id.imageView)
     ImageView imageView;
@@ -41,6 +45,7 @@ public class ImageFixW extends AppCompatActivity {
     private String TAG = "ImageFixW_log";
     private String mSubtype = "4";
     List<GirlItemData> list = new ArrayList<>();
+    private ImageTask task;
 
     public static void start(Context context) {
         Intent starter = new Intent(context, ImageFixW.class);
@@ -58,7 +63,7 @@ public class ImageFixW extends AppCompatActivity {
 //                .load(R.drawable.zhengfangxing)
 //                .into(imageView);
 
-        for (int i = 0; i < 15; i++) {
+        for (int i = 0; i < 25; i++) {
 //            list.add(new GirlItemData(R.drawable.erciyuan));
 //            list.add(new GirlItemData(R.drawable.zhengfangxing));
 //            list.add(new GirlItemData(R.drawable.shamo));
@@ -86,6 +91,12 @@ public class ImageFixW extends AppCompatActivity {
         }
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
+        if (task != null) {
+            task.stop();
+            task = null;
+        }
+        task = new ImageTask(this, this);
+        task.execute(list);
 
     }
 
@@ -105,10 +116,37 @@ public class ImageFixW extends AppCompatActivity {
         EventBus.getDefault().unregister(this);
     }
 
-    @OnClick(R.id.loading)
-    public void onViewClicked() {
+    @OnClick({R.id.loading, R.id.cancel_button})
+    public void onViewClicked(View view) {
 
-        ImageService.startService(this, list, mSubtype);
+//        ImageService.startService(this, list, mSubtype);
+        switch (view.getId()) {
+            case R.id.cancel_button:
+                if (task != null && task.isRunning()) {
+                    Log.d("ImageTask_log", "onViewClicked:取消");
+                    task.stop();
+                }
+                break;
+            case R.id.loading:
+                if (task != null) {
+                    task.stop();
+                    task = null;
+                }
+                task = new ImageTask(this, this);
+                task.execute(list);
+                break;
+        }
 
+
+    }
+
+    @Override
+    public void onProgressUpdate(int progresse) {
+        Log.d(TAG, "onProgressUpdate: " + progresse + "%");
+    }
+
+    @Override
+    public void onLoadFinish(List<? extends INetWorkPicture> datas) {
+        recyclerView.setAdapter(new GirlAdapter((List<GirlItemData>) datas, this));
     }
 }

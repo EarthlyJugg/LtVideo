@@ -38,6 +38,7 @@ public class ImageService extends IntentService {
         handleGirlItemData(datas, callback);
     }
 
+
     private void handleGirlItemData(List<? extends INetWorkPicture> datas, String callback) {
         if (datas == null || datas.size() == 0) {
             EventBus.getDefault().post("finish");
