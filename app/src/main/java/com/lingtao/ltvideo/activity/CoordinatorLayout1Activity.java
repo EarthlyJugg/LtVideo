@@ -43,6 +43,8 @@ public class CoordinatorLayout1Activity extends AppCompatActivity {
     TextView index2;
     @BindView(R.id.index3)
     TextView index3;
+    @BindView(R.id.contentText)
+    TextView contentText;
     @BindView(R.id.viewPager)
     ViewPager viewPager;
 
@@ -61,21 +63,23 @@ public class CoordinatorLayout1Activity extends AppCompatActivity {
 
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
-        if(actionBar != null){
+        if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowTitleEnabled(false);
         }
 
-        fragments.add(ListFragment.getInstance(1));
-        fragments.add(ListFragment.getInstance(1));
-        fragments.add(ListFragment.getInstance(1));
+        fragments.add(ListFragment.getInstance(12));
+        fragments.add(ListFragment.getInstance(12));
+        fragments.add(ListFragment.getInstance(12));
 
         viewPager.setAdapter(new HomeViewPaerAdapter(getSupportFragmentManager(), fragments));
 
 
     }
 
-    @OnClick({R.id.index1, R.id.index2, R.id.index3})
+
+    boolean isShowAll = false;
+    @OnClick({R.id.index1, R.id.index2, R.id.index3, R.id.imageView})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.index1:
@@ -87,18 +91,26 @@ public class CoordinatorLayout1Activity extends AppCompatActivity {
             case R.id.index3:
                 viewPager.setCurrentItem(2);
                 break;
+            case R.id.imageView:
+                isShowAll = !isShowAll;
+                if (isShowAll) {
+                    contentText.setText(R.string.textContent);
+                } else {
+                    contentText.setText(R.string.action_settings);
+                }
+                break;
         }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main,menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.action_settings:
                 Toast.makeText(this, "分享", Toast.LENGTH_SHORT).show();
                 break;
