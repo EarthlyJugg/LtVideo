@@ -15,7 +15,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.CardViewActivity"></activity>
+        <activity android:name=".activity.ImageViewDimActivity"></activity>
+        <activity
+            android:name=".activity.CoordinatorLayout3Activity"
+            android:theme="@style/AppTheme2" />
+        <activity
+            android:name=".activity.CoordinatorLayout1Activity"
+            android:theme="@style/AppTheme2" />
+        <activity android:name=".activity.CoordinatorLayout2Activity" />
+        <activity android:name=".activity.CardViewActivity" />
         <activity android:name=".activity.ImageFixW" />
         <activity android:name=".activity.MainActivity" />
         <activity android:name=".activity.XfermodeViewActivity" />

@@ -12,7 +12,8 @@ import com.lingtao.ltvideo.util.ImageLoader;
 import java.util.List;
 
 /**
- * ImageTask 是一次性的，在加载完成或者调用 stop 方法，都会把传进来的context 和 onLoadImageSizeListener 置空
+ * ImageTask 是一次性的，
+ * 在加载完成或者调用 stop 方法，都会把传进来的context 和 onLoadImageSizeListener 置空
  */
 public class ImageTask extends AsyncTask<List<? extends INetWorkPicture>, Integer, List<? extends INetWorkPicture>> {
 

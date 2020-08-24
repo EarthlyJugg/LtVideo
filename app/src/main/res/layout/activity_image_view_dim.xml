@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.ImageViewDimActivity">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:src="@drawable/erciyuan"
+        android:id="@+id/imageView"
+        android:scaleType="fitXY"
+        android:layout_height="@dimen/dp_400" />
+
+
+    <SeekBar
+        android:id="@+id/seekbar"
+        android:max="100"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50" />
+
+</LinearLayout>

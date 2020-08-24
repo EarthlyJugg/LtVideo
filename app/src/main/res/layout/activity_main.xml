@@ -99,11 +99,36 @@
                 android:layout_height="wrap_content"
                 android:onClick="toCardViewActivity"
                 android:text="卡片式布局" />
-    <Button
+
+            <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:onClick="toIWhileService"
                 android:text="IntentService" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="toCoordinatorLayout1Activity"
+                android:text="Android标题栏随着滑动显示隐藏1" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="toCoordinatorLayout2Activity"
+                android:text="Android标题栏随着滑动显示隐藏2" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="toCoordinatorLayout3Activity"
+                android:text="Android标题栏随着滑动显示隐藏3" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="toImageViewDimActivity"
+                android:text="图片模糊" />
 
         </LinearLayout>
 

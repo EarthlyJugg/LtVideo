@@ -15,7 +15,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.lingtao.ltvideo.activity.CameraPreviewActivity;
 import com.lingtao.ltvideo.activity.CardViewActivity;
 import com.lingtao.ltvideo.activity.CircleIndicatorViewActivity;
+import com.lingtao.ltvideo.activity.CoordinatorLayout1Activity;
+import com.lingtao.ltvideo.activity.CoordinatorLayout2Activity;
+import com.lingtao.ltvideo.activity.CoordinatorLayout3Activity;
 import com.lingtao.ltvideo.activity.ImageFixW;
+import com.lingtao.ltvideo.activity.ImageViewDimActivity;
 import com.lingtao.ltvideo.activity.PictureCropActivity;
 import com.lingtao.ltvideo.activity.PictureProcessingActivity;
 import com.lingtao.ltvideo.activity.StickyScrollViewActivity;
@@ -46,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-
 
 
     }
@@ -107,13 +110,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void qihangdashabi(View view) {
-        Bitmap mBmp = Bitmap.createBitmap(500 ,500 , Bitmap.Config.ARGB_8888);
-        Canvas   mBmpCanvas = new Canvas(mBmp);
+        Bitmap mBmp = Bitmap.createBitmap(500, 500, Bitmap.Config.ARGB_8888);
+        Canvas mBmpCanvas = new Canvas(mBmp);
         Paint mPaint;
         mPaint = new Paint();
         mPaint.setColor(Color.RED);
         mPaint.setTextSize(100);
-        mBmpCanvas.drawText("启舰大SB",0,100,mPaint);
+        mBmpCanvas.drawText("启舰大SB", 0, 100, mPaint);
         imageView.setImageBitmap(mBmp);
     }
 
@@ -128,5 +131,21 @@ public class MainActivity extends AppCompatActivity {
     public void toIWhileService(View view) {
 
         startService(new Intent(this, IWhileService.class));
+    }
+
+    public void toCoordinatorLayout1Activity(View view) {
+        CoordinatorLayout1Activity.start(this);
+    }
+
+    public void toCoordinatorLayout2Activity(View view) {
+        CoordinatorLayout2Activity.start(this);
+    }
+
+    public void toCoordinatorLayout3Activity(View view) {
+        CoordinatorLayout3Activity.start(this);
+    }
+
+    public void toImageViewDimActivity(View view) {
+        ImageViewDimActivity.start(this);
     }
 }
