@@ -22,6 +22,7 @@ import com.lingtao.ltvideo.activity.ImageFixW;
 import com.lingtao.ltvideo.activity.ImageViewDimActivity;
 import com.lingtao.ltvideo.activity.PictureCropActivity;
 import com.lingtao.ltvideo.activity.PictureProcessingActivity;
+import com.lingtao.ltvideo.activity.PlayGIFActivity;
 import com.lingtao.ltvideo.activity.StickyScrollViewActivity;
 import com.lingtao.ltvideo.activity.StickyScrollViewActivity2;
 import com.lingtao.ltvideo.activity.StickyScrollViewActivity3;
@@ -147,5 +148,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void toImageViewDimActivity(View view) {
         ImageViewDimActivity.start(this);
+    }
+
+    public void playGif(View view) {
+        PlayGIFActivity.start(this);
     }
 }

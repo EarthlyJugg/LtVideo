@@ -130,6 +130,12 @@
                 android:onClick="toImageViewDimActivity"
                 android:text="图片模糊" />
 
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="playGif"
+                android:text="播放gif" />
+
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
