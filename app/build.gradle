@@ -79,6 +79,15 @@ dependencies {
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.22'
     implementation 'com.jaeger.statusbarutil:library:1.5.1'
     implementation'jp.wasabeef:glide-transformations:4.0.1'
+
+    //必须使用fsdf
+    implementation 'com.lzy.net:okgo:3.0.4'
+
+//以下三个选择添加，okrx和okrx2不能同时使用
+//    compile 'com.lzy.net:okrx:1.0.2'
+    implementation 'com.lzy.net:okrx2:2.0.2'
+    implementation 'com.lzy.net:okserver:2.0.5'
+
 }
 repositories {
     mavenCentral()

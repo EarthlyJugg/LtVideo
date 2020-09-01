@@ -24,9 +24,19 @@ import com.lingtao.ltvideo.helper.GifHandler;
 import com.lingtao.ltvideo.util.LogUtils;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class PlayGIFActivity extends AppCompatActivity {
 
@@ -54,13 +64,41 @@ public class PlayGIFActivity extends AppCompatActivity {
 
     public void playGif(View view) {
 
-        for (int i = 0; i < 15; i++) {
-            File file3 = new File(Environment.getExternalStorageDirectory(), "demo3.gif");
-            File file4 = new File(Environment.getExternalStorageDirectory(), "demo4.gif");
-            list.add(new GIfBean(file3.getAbsolutePath()));
-            list.add(new GIfBean(file4.getAbsolutePath()));
-        }
-        recyclerView.setAdapter(new ImageAdapter(list, this));
+//        for (int i = 0; i < 15; i++) {
+//            File file3 = new File(Environment.getExternalStorageDirectory(), "demo3.gif");
+//            File file4 = new File(Environment.getExternalStorageDirectory(), "demo4.gif");
+//            list.add(new GIfBean(file3.getAbsolutePath()));
+//            list.add(new GIfBean(file4.getAbsolutePath()));
+//        }
+//        recyclerView.setAdapter(new ImageAdapter(list, this));
+
+
+        OkHttpClient client = new OkHttpClient.Builder().build();
+        File mFile = new File(Environment.getExternalStorageDirectory(), "demo3.gif");
+        File mFile2 = new File(Environment.getExternalStorageDirectory(), "demo4.gif");
+
+        // 文件上传的请求体封装
+        MultipartBody multipartBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+//                .addFormDataPart("key", "abc")
+//                .addFormDataPart("file1", mFile.getName(), RequestBody.create(MediaType.parse("image/jpg"), mFile))
+                .addFormDataPart("file2", mFile2.getName(), RequestBody.create(MediaType.parse("image/jpg"), mFile2))
+                .build();
+        Request request = new Request.Builder()
+                .url("http://192.168.34.197:8080/upload")
+                .post(multipartBody).build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                Log.d(TAG, "onResponse: " + response.body().string());
+            }
+        });
 
     }
 
