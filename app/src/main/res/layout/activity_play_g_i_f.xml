@@ -3,21 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:gravity="center_horizontal"
     android:layout_height="match_parent"
+    android:gravity="center_horizontal"
     android:orientation="vertical"
     tools:context=".activity.PlayGIFActivity">
 
-    <ImageView
-        android:id="@+id/image"
-        android:layout_width="@dimen/dp_200"
-        android:layout_height="@dimen/dp_200" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
     <Button
         android:layout_width="match_parent"
-        android:text="播放"
+        android:layout_height="wrap_content"
         android:onClick="playGif"
-        android:layout_height="wrap_content" />
+        android:text="播放" />
 
 
 </LinearLayout>

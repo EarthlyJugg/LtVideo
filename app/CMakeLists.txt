@@ -16,9 +16,9 @@ add_library(
 )
 
 
-include_directories(${CMAKE_SOURCE_DIR}/src/main/cpp/include)
+#include_directories(${CMAKE_SOURCE_DIR}/src/main/cpp/include)
 include_directories(${CMAKE_SOURCE_DIR}/src/main/cpp/gif)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -L${CMAKE_SOURCE_DIR}/src/main/cpp/libs/${CMAKE_ANDROID_ARCH_ABI} ")
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -L${CMAKE_SOURCE_DIR}/src/main/cpp/libs/${CMAKE_ANDROID_ARCH_ABI} ")
 
 
 target_link_libraries(
@@ -30,11 +30,13 @@ target_link_libraries(
 #        avutil
 #        swresample
 #        swscale
-        turbojpeg
+
+        #libjpeg库
+#        turbojpeg
+
         jnigraphics
         log
         z
         android
-        jnigraphics
         android
         OpenSLES)

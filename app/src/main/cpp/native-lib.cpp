@@ -8,26 +8,24 @@
 
 
 extern "C" {
-#include <libjpeg/jpeglib.h>
+//#include <libjpeg/jpeglib.h>
 
 }
 
 
-#define LOGI(...) __android_log_print(ANDROID_LOG_INFO , "(^_^)", __VA_ARGS__)
 #define LOGE(...) __android_log_print(ANDROID_LOG_ERROR , "IjkMediaPlayer_log", __VA_ARGS__)
 
-#define  LOG_TAG    "david"
 #define  argb(a, r, g, b) ( ((a) & 0xff) << 24 ) | ( ((b) & 0xff) << 16 ) | ( ((g) & 0xff) << 8 ) | ((r) & 0xff)
 
 #define  dispose(ext) (((ext)->Bytes[0] & 0x1c) >> 2)
 #define  trans_index(ext) ((ext)->Bytes[3])
 #define  transparency(ext) ((ext)->Bytes[0] & 1)
 #define  delay(ext) (10*((ext)->Bytes[2] << 8 | (ext)->Bytes[1]))
-#define  LOGE(...)  __android_log_print(ANDROID_LOG_ERROR,LOG_TAG,__VA_ARGS__)
 
 typedef struct GifBean {
     int current_frame;
     int total_frame;
+//    unsigned char *dealys;
     int *dealys;
 } GifBean;
 
@@ -263,36 +261,36 @@ int drawFrame(GifFileType *gif, GifBean *gifBean, AndroidBitmapInfo info, void *
     return delay(ext);
 }
 //
-////绘制一张图片
-//void drawFrame(GifFileType *gifFileType, GifBean *gifBean, AndroidBitmapInfo info, void *pixels) {
-//    //播放底层代码
-////        拿到当前帧
-//    SavedImage savedImage = gifFileType->SavedImages[gifBean->current_frame];
-//
-//    GifImageDesc frameInfo = savedImage.ImageDesc;
-//    //整幅图片的首地址
-//    int* px = (int *)pixels;
-////    每一行的首地址
-//    int *line;
-//
-////   其中一个像素的位置  不是指针  在颜色表中的索引
-//    int  pointPixel;
-//    GifByteType  gifByteType;
-//    GifColorType gifColorType;
-//    ColorMapObject* colorMapObject=frameInfo.ColorMap;
-//    px = (int *) ((char*)px + info.stride * frameInfo.Top);
-//    for (int y =frameInfo.Top; y < frameInfo.Top+frameInfo.Height; ++y) {
-//        line=px;
-//        for (int x = frameInfo.Left; x< frameInfo.Left + frameInfo.Width; ++x) {
-//            pointPixel = (y - frameInfo.Top) * frameInfo.Width + (x - frameInfo.Left);
-//            gifByteType = savedImage.RasterBits[pointPixel];
-//            gifColorType = colorMapObject->Colors[gifByteType];
-//            line[x] = argb(255,gifColorType.Red, gifColorType.Green, gifColorType.Blue);
-//        }
-//        px = (int *) ((char*)px + info.stride);
-//    }
-//
-//}
+//绘制一张图片
+void drawFrame2(GifFileType *gifFileType, GifBean *gifBean, AndroidBitmapInfo info, void *pixels) {
+    //播放底层代码
+//        拿到当前帧
+    SavedImage savedImage = gifFileType->SavedImages[gifBean->current_frame];
+
+    GifImageDesc frameInfo = savedImage.ImageDesc;
+    //整幅图片的首地址
+    int* px = (int *)pixels;
+//    每一行的首地址
+    int *line;
+
+//   其中一个像素的位置  不是指针  在颜色表中的索引
+    int  pointPixel;
+    GifByteType  gifByteType;
+    GifColorType gifColorType;
+    ColorMapObject* colorMapObject=frameInfo.ColorMap;
+    px = (int *) ((char*)px + info.stride * frameInfo.Top);
+    for (int y =frameInfo.Top; y < frameInfo.Top+frameInfo.Height; ++y) {
+        line=px;
+        for (int x = frameInfo.Left; x< frameInfo.Left + frameInfo.Width; ++x) {
+            pointPixel = (y - frameInfo.Top) * frameInfo.Width + (x - frameInfo.Left);
+            gifByteType = savedImage.RasterBits[pointPixel];
+            gifColorType = colorMapObject->Colors[gifByteType];
+            line[x] = argb(255,gifColorType.Red, gifColorType.Green, gifColorType.Blue);
+        }
+        px = (int *) ((char*)px + info.stride);
+    }
+
+}
 #endif
 
 extern "C"
@@ -314,6 +312,7 @@ Java_com_lingtao_ltvideo_helper_GifHandler_loadPath(JNIEnv *env, jobject thiz, j
     gifBean->dealys = (int *) malloc(sizeof(int) * gifFileType->ImageCount);
     memset(gifBean->dealys, 0, sizeof(int) * gifFileType->ImageCount);
     gifBean->total_frame = gifFileType->ImageCount;
+    LOGE("该gif的总帧数：%d",gifBean->total_frame);
     ExtensionBlock *ext;
     for (int i = 0; i < gifFileType->ImageCount; ++i) {
         SavedImage frame = gifFileType->SavedImages[i];
@@ -325,12 +324,10 @@ Java_com_lingtao_ltvideo_helper_GifHandler_loadPath(JNIEnv *env, jobject thiz, j
         }
         if (ext) {
             int frame_delay = 10 * (ext->Bytes[2] << 8 | ext->Bytes[1]);
-            LOGE("时间  %d   ", frame_delay);
+            LOGE("一帧的延迟时间= %d   ", frame_delay);
             gifBean->dealys[i] = frame_delay;
-
         }
     }
-    LOGE("gif  长度大小    %d  ", gifFileType->ImageCount);
     env->ReleaseStringUTFChars(path_, path);
     return (jlong) gifFileType;
 }
@@ -338,6 +335,7 @@ Java_com_lingtao_ltvideo_helper_GifHandler_loadPath(JNIEnv *env, jobject thiz, j
 extern "C"
 JNIEXPORT jint JNICALL
 Java_com_lingtao_ltvideo_helper_GifHandler_getWidth(JNIEnv *env, jobject thiz, jlong ndkGif) {
+    //当gif 多张图片加载，等传入对应的gif 图的ndkGif（相当于一个id）才能得到对应的图片宽高
     GifFileType *gifFileType = (GifFileType *) ndkGif;
     return gifFileType->SWidth;
 }
@@ -361,7 +359,7 @@ Java_com_lingtao_ltvideo_helper_GifHandler_updateFrame(JNIEnv *env, jobject thiz
     //代表一幅图片的像素数组
     void *pixels;
     AndroidBitmap_getInfo(env, bitmap, &info);
-    //锁定bitmap  一幅图片--》二维 数组   ===一个二维数组
+    //锁定bitmap
     AndroidBitmap_lockPixels(env, bitmap, &pixels);
 
     // TODO
@@ -369,11 +367,22 @@ Java_com_lingtao_ltvideo_helper_GifHandler_updateFrame(JNIEnv *env, jobject thiz
 
     //播放完成之后   循环到下一帧
     gifBean->current_frame += 1;
-    LOGE("当前帧  %d  ", gifBean->current_frame);
+//    LOGE("当前帧  %d  ", gifBean->current_frame);
     if (gifBean->current_frame >= gifBean->total_frame - 1) {
         gifBean->current_frame = 0;
-        LOGE("重新过来  %d  ", gifBean->current_frame);
+//        LOGE("重新过来  %d  ", gifBean->current_frame);
     }
     AndroidBitmap_unlockPixels(env, bitmap);
+    //返回延迟时间
     return gifBean->dealys[gifBean->current_frame];
+}extern "C"
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_lingtao_ltvideo_helper_GifHandler_clear(JNIEnv *env, jobject thiz, jlong ndkGif) {
+    GifFileType *gifFileType = (GifFileType *) ndkGif;
+    GifBean *gifBean = (GifBean *) gifFileType->UserData;
+    delete (gifBean);
+    delete (gifFileType);
+    gifBean = nullptr;
+    gifFileType = nullptr;
 }

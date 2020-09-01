@@ -7,10 +7,19 @@ import android.graphics.Bitmap;
  */
 
 public class GifHandler {
+
+    static {
+        System.loadLibrary("native-lib");
+    }
+
     private long gifAddr;
 
     public GifHandler(String path) {
         this.gifAddr = loadPath(path);
+    }
+
+    public long getGifAddr() {
+        return gifAddr;
     }
 
     private native long loadPath(String path);
@@ -18,6 +27,8 @@ public class GifHandler {
     public native int getWidth(long ndkGif);
 
     public native int getHeight(long ndkGif);
+
+    public native void clear(long ndkGif);
 
     public native int updateFrame(long ndkGif, Bitmap bitmap);
 
@@ -31,5 +42,9 @@ public class GifHandler {
 
     public int updateFrame(Bitmap bitmap) {
         return updateFrame(gifAddr, bitmap);
+    }
+
+    public void clear() {
+        clear(gifAddr);
     }
 }

@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,17 +23,18 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.lingtao.ltvideo.R;
 import com.lingtao.ltvideo.base.ImageBean;
+import com.lingtao.ltvideo.giflib.GIfBean;
+import com.lingtao.ltvideo.giflib.LtGif;
 
 import java.util.List;
 
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> {
 
 
-    private List<ImageBean> images;
+    private List<GIfBean> images;
     private Context context;
-    private String TAG = "ImageAdapter_Log";
 
-    public ImageAdapter(List<ImageBean> images, Context context) {
+    public ImageAdapter(List<GIfBean> images, Context context) {
         this.images = images;
         this.context = context;
     }
@@ -46,31 +48,42 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        ImageBean imageBean = images.get(position);
-        int w_size = imageBean.getW_size();
-        int h_size = imageBean.getH_size();
-//        Log.d(TAG, "w=" + w_size + ",h=" + h_size);
-        RequestOptions requestOptions = RequestOptions.bitmapTransform(new RoundedCorners(20));
-        Glide.with(context)
-                .asBitmap()
-                .listener(new RequestListener<Bitmap>() {
-                    @Override
-                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Bitmap> target, boolean isFirstResource) {
-                        Log.d(TAG, "onLoadFailed: " + e.toString());
-                        return false;
-                    }
 
-                    @Override
-                    public boolean onResourceReady(Bitmap bitmap, Object model, Target<Bitmap> target, DataSource dataSource, boolean isFirstResource) {
-                        //获取显示之后的图片宽高
-                        int width = bitmap.getWidth();
-                        int height = bitmap.getHeight();
-                        return false;
-                    }
-                })
-//                .apply(requestOptions)
-                .load(imageBean.getRes())
-                .into(holder.imageView);
+        GIfBean imageBean = images.get(position);
+        imageBean.showImage(holder.imageView);
+        holder.player.setVisibility(imageBean.isPlayer() ? View.GONE : View.VISIBLE);
+        holder.player.setOnClickListener(v -> {
+            for (int i = 0; i < images.size(); i++) {
+                GIfBean image = images.get(i);
+                if (image.isPlayer()) {
+                    image.pause();
+                    notifyItemChanged(i);
+                    break;
+                }
+            }
+
+            holder.player.setVisibility(View.GONE);
+            imageBean.start(holder.imageView);
+        });
+
+    }
+
+
+    @Override
+    public void onViewDetachedFromWindow(@NonNull ViewHolder holder) {
+        super.onViewDetachedFromWindow(holder);
+        //释放资源
+        int position = holder.getAdapterPosition();
+        //越界检查
+        if (position < 0 || position >= images.size()) {
+            return;
+        }
+        GIfBean gIfBean = images.get(position);
+        if (gIfBean.isPlayer()) {
+            gIfBean.pause();
+            holder.player.setVisibility(View.VISIBLE);
+            gIfBean.showImage(holder.imageView);
+        }
     }
 
     @Override
@@ -81,10 +94,12 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
     class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView imageView;
+        TextView player;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.imageView);
+            player = itemView.findViewById(R.id.player);
 
         }
     }

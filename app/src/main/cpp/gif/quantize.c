@@ -38,9 +38,10 @@ typedef struct NewColorMapType {
     QuantizedColorType *QuantizedColors;
 } NewColorMapType;
 
-static int SubdivColorMap(NewColorMapType * NewColorSubdiv,
+static int SubdivColorMap(NewColorMapType *NewColorSubdiv,
                           unsigned int ColorMapSize,
                           unsigned int *NewColorMapSize);
+
 static int SortCmpRtn(const void *Entry1, const void *Entry2);
 
 /******************************************************************************
@@ -57,13 +58,13 @@ static int SortCmpRtn(const void *Entry1, const void *Entry2);
 ******************************************************************************/
 int
 GifQuantizeBuffer(unsigned int Width,
-               unsigned int Height,
-               int *ColorMapSize,
-               GifByteType * RedInput,
-               GifByteType * GreenInput,
-               GifByteType * BlueInput,
-               GifByteType * OutputBuffer,
-               GifColorType * OutputColorMap) {
+                  unsigned int Height,
+                  int *ColorMapSize,
+                  GifByteType *RedInput,
+                  GifByteType *GreenInput,
+                  GifByteType *BlueInput,
+                  GifByteType *OutputBuffer,
+                  GifColorType *OutputColorMap) {
 
     unsigned int Index, NumOfEntries;
     int i, j, MaxRGBError[3];
@@ -72,8 +73,8 @@ GifQuantizeBuffer(unsigned int Width,
     NewColorMapType NewColorSubdiv[256];
     QuantizedColorType *ColorArrayEntries, *QuantizedColor;
 
-    ColorArrayEntries = (QuantizedColorType *)malloc(
-                           sizeof(QuantizedColorType) * COLOR_ARRAY_SIZE);
+    ColorArrayEntries = (QuantizedColorType *) malloc(
+            sizeof(QuantizedColorType) * COLOR_ARRAY_SIZE);
     if (ColorArrayEntries == NULL) {
         return GIF_ERROR;
     }
@@ -81,17 +82,17 @@ GifQuantizeBuffer(unsigned int Width,
     for (i = 0; i < COLOR_ARRAY_SIZE; i++) {
         ColorArrayEntries[i].RGB[0] = i >> (2 * BITS_PER_PRIM_COLOR);
         ColorArrayEntries[i].RGB[1] = (i >> BITS_PER_PRIM_COLOR) &
-           MAX_PRIM_COLOR;
+                                      MAX_PRIM_COLOR;
         ColorArrayEntries[i].RGB[2] = i & MAX_PRIM_COLOR;
         ColorArrayEntries[i].Count = 0;
     }
 
     /* Sample the colors and their distribution: */
-    for (i = 0; i < (int)(Width * Height); i++) {
+    for (i = 0; i < (int) (Width * Height); i++) {
         Index = ((RedInput[i] >> (8 - BITS_PER_PRIM_COLOR)) <<
-                  (2 * BITS_PER_PRIM_COLOR)) +
+                                                            (2 * BITS_PER_PRIM_COLOR)) +
                 ((GreenInput[i] >> (8 - BITS_PER_PRIM_COLOR)) <<
-                  BITS_PER_PRIM_COLOR) +
+                                                              BITS_PER_PRIM_COLOR) +
                 (BlueInput[i] >> (8 - BITS_PER_PRIM_COLOR));
         ColorArrayEntries[Index].Count++;
     }
@@ -122,18 +123,18 @@ GifQuantizeBuffer(unsigned int Width,
     QuantizedColor->Pnext = NULL;
 
     NewColorSubdiv[0].NumEntries = NumOfEntries; /* Different sampled colors */
-    NewColorSubdiv[0].Count = ((long)Width) * Height; /* Pixels */
+    NewColorSubdiv[0].Count = ((long) Width) * Height; /* Pixels */
     NewColorMapSize = 1;
     if (SubdivColorMap(NewColorSubdiv, *ColorMapSize, &NewColorMapSize) !=
-       GIF_OK) {
-        free((char *)ColorArrayEntries);
+        GIF_OK) {
+        free((char *) ColorArrayEntries);
         return GIF_ERROR;
     }
     if (NewColorMapSize < *ColorMapSize) {
         /* And clear rest of color map: */
         for (i = NewColorMapSize; i < *ColorMapSize; i++)
             OutputColorMap[i].Red = OutputColorMap[i].Green =
-                OutputColorMap[i].Blue = 0;
+            OutputColorMap[i].Blue = 0;
     }
 
     /* Average the colors in each entry to be the color to be used in the
@@ -158,11 +159,11 @@ GifQuantizeBuffer(unsigned int Width,
     /* Finally scan the input buffer again and put the mapped index in the
      * output buffer.  */
     MaxRGBError[0] = MaxRGBError[1] = MaxRGBError[2] = 0;
-    for (i = 0; i < (int)(Width * Height); i++) {
+    for (i = 0; i < (int) (Width * Height); i++) {
         Index = ((RedInput[i] >> (8 - BITS_PER_PRIM_COLOR)) <<
-                 (2 * BITS_PER_PRIM_COLOR)) +
+                                                            (2 * BITS_PER_PRIM_COLOR)) +
                 ((GreenInput[i] >> (8 - BITS_PER_PRIM_COLOR)) <<
-                 BITS_PER_PRIM_COLOR) +
+                                                              BITS_PER_PRIM_COLOR) +
                 (BlueInput[i] >> (8 - BITS_PER_PRIM_COLOR));
         Index = ColorArrayEntries[Index].NewColorIndex;
         OutputBuffer[i] = Index;
@@ -180,7 +181,7 @@ GifQuantizeBuffer(unsigned int Width,
             MaxRGBError[0], MaxRGBError[1], MaxRGBError[2]);
 #endif /* DEBUG */
 
-    free((char *)ColorArrayEntries);
+    free((char *) ColorArrayEntries);
 
     *ColorMapSize = NewColorMapSize;
 
@@ -194,7 +195,7 @@ GifQuantizeBuffer(unsigned int Width,
  Returns GIF_ERROR if failed, otherwise GIF_OK.
 *******************************************************************************/
 static int
-SubdivColorMap(NewColorMapType * NewColorSubdiv,
+SubdivColorMap(NewColorMapType *NewColorSubdiv,
                unsigned int ColorMapSize,
                unsigned int *NewColorMapSize) {
 
@@ -208,8 +209,8 @@ SubdivColorMap(NewColorMapType * NewColorSubdiv,
         MaxSize = -1;
         for (i = 0; i < *NewColorMapSize; i++) {
             for (j = 0; j < 3; j++) {
-                if ((((int)NewColorSubdiv[i].RGBWidth[j]) > MaxSize) &&
-                      (NewColorSubdiv[i].NumEntries > 1)) {
+                if ((((int) NewColorSubdiv[i].RGBWidth[j]) > MaxSize) &&
+                    (NewColorSubdiv[i].NumEntries > 1)) {
                     MaxSize = NewColorSubdiv[i].RGBWidth[j];
                     Index = i;
                     SortRGBAxis = j;
@@ -224,9 +225,9 @@ SubdivColorMap(NewColorMapType * NewColorSubdiv,
 
         /* Sort all elements in that entry along the given axis and split at
          * the median.  */
-        SortArray = (QuantizedColorType **)malloc(
-                      sizeof(QuantizedColorType *) * 
-                      NewColorSubdiv[Index].NumEntries);
+        SortArray = (QuantizedColorType **) malloc(
+                sizeof(QuantizedColorType *) *
+                NewColorSubdiv[Index].NumEntries);
         if (SortArray == NULL)
             return GIF_ERROR;
         for (j = 0, QuantizedColor = NewColorSubdiv[Index].QuantizedColors;
@@ -242,14 +243,14 @@ SubdivColorMap(NewColorMapType * NewColorSubdiv,
             SortArray[j]->Pnext = SortArray[j + 1];
         SortArray[NewColorSubdiv[Index].NumEntries - 1]->Pnext = NULL;
         NewColorSubdiv[Index].QuantizedColors = QuantizedColor = SortArray[0];
-        free((char *)SortArray);
+        free((char *) SortArray);
 
         /* Now simply add the Counts until we have half of the Count: */
         Sum = NewColorSubdiv[Index].Count / 2 - QuantizedColor->Count;
         NumEntries = 1;
         Count = QuantizedColor->Count;
         while (QuantizedColor->Pnext != NULL &&
-	       (Sum -= QuantizedColor->Pnext->Count) >= 0 &&
+               (Sum -= QuantizedColor->Pnext->Count) >= 0 &&
                QuantizedColor->Pnext->Pnext != NULL) {
             QuantizedColor = QuantizedColor->Pnext;
             NumEntries++;
@@ -261,33 +262,33 @@ SubdivColorMap(NewColorMapType * NewColorSubdiv,
          * they need to be rescaled.
          */
         MaxColor = QuantizedColor->RGB[SortRGBAxis]; /* Max. of first half */
-	/* coverity[var_deref_op] */
+        /* coverity[var_deref_op] */
         MinColor = QuantizedColor->Pnext->RGB[SortRGBAxis]; /* of second */
         MaxColor <<= (8 - BITS_PER_PRIM_COLOR);
         MinColor <<= (8 - BITS_PER_PRIM_COLOR);
 
         /* Partition right here: */
         NewColorSubdiv[*NewColorMapSize].QuantizedColors =
-           QuantizedColor->Pnext;
+                QuantizedColor->Pnext;
         QuantizedColor->Pnext = NULL;
         NewColorSubdiv[*NewColorMapSize].Count = Count;
         NewColorSubdiv[Index].Count -= Count;
         NewColorSubdiv[*NewColorMapSize].NumEntries =
-           NewColorSubdiv[Index].NumEntries - NumEntries;
+                NewColorSubdiv[Index].NumEntries - NumEntries;
         NewColorSubdiv[Index].NumEntries = NumEntries;
         for (j = 0; j < 3; j++) {
             NewColorSubdiv[*NewColorMapSize].RGBMin[j] =
-               NewColorSubdiv[Index].RGBMin[j];
+                    NewColorSubdiv[Index].RGBMin[j];
             NewColorSubdiv[*NewColorMapSize].RGBWidth[j] =
-               NewColorSubdiv[Index].RGBWidth[j];
+                    NewColorSubdiv[Index].RGBWidth[j];
         }
         NewColorSubdiv[*NewColorMapSize].RGBWidth[SortRGBAxis] =
-           NewColorSubdiv[*NewColorMapSize].RGBMin[SortRGBAxis] +
-           NewColorSubdiv[*NewColorMapSize].RGBWidth[SortRGBAxis] - MinColor;
+                NewColorSubdiv[*NewColorMapSize].RGBMin[SortRGBAxis] +
+                NewColorSubdiv[*NewColorMapSize].RGBWidth[SortRGBAxis] - MinColor;
         NewColorSubdiv[*NewColorMapSize].RGBMin[SortRGBAxis] = MinColor;
 
         NewColorSubdiv[Index].RGBWidth[SortRGBAxis] =
-           MaxColor - NewColorSubdiv[Index].RGBMin[SortRGBAxis];
+                MaxColor - NewColorSubdiv[Index].RGBMin[SortRGBAxis];
 
         (*NewColorMapSize)++;
     }
@@ -303,7 +304,7 @@ SortCmpRtn(const void *Entry1,
            const void *Entry2) {
 
     return (*((QuantizedColorType **) Entry1))->RGB[SortRGBAxis] -
-       (*((QuantizedColorType **) Entry2))->RGB[SortRGBAxis];
+           (*((QuantizedColorType **) Entry2))->RGB[SortRGBAxis];
 }
 
 /* end */

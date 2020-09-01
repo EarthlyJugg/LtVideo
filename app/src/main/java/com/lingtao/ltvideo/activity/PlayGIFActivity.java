@@ -1,6 +1,8 @@
 package com.lingtao.ltvideo.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,22 +15,25 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.lingtao.ltvideo.R;
+import com.lingtao.ltvideo.adapter.ImageAdapter;
+import com.lingtao.ltvideo.giflib.GIfBean;
+import com.lingtao.ltvideo.giflib.LtGif;
 import com.lingtao.ltvideo.helper.GifHandler;
+import com.lingtao.ltvideo.util.LogUtils;
 
 import java.io.File;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 public class PlayGIFActivity extends AppCompatActivity {
 
     private static final String TAG = "PlayGIFActivity_log";
+    private RecyclerView recyclerView;
+    List<GIfBean> list = new LinkedList<>();
 
-    static {
-        System.loadLibrary("native-lib");
-    }
-
-    Bitmap bitmap;
-    GifHandler gifHandler;
-    ImageView imageView;
 
     public static void start(Context context) {
         Intent starter = new Intent(context, PlayGIFActivity.class);
@@ -39,29 +44,35 @@ public class PlayGIFActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_g_i_f);
-        imageView = (ImageView) findViewById(R.id.image);
+
+        recyclerView = ((RecyclerView) findViewById(R.id.recyclerView));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+
     }
 
 
     public void playGif(View view) {
-        File file = new File(Environment.getExternalStorageDirectory(), "demo2.gif");
-        gifHandler = new GifHandler(file.getAbsolutePath());
-        Log.i("tuch", "ndkLoadGif: " + file.getAbsolutePath());
-        //得到gif   width  height  生成Bitmap
-        int width = gifHandler.getWidth();
-        int height = gifHandler.getHeight();
-        bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        int nextFrame = gifHandler.updateFrame(bitmap);
-        handler.sendEmptyMessageDelayed(1, nextFrame);
+
+        for (int i = 0; i < 15; i++) {
+            File file3 = new File(Environment.getExternalStorageDirectory(), "demo3.gif");
+            File file4 = new File(Environment.getExternalStorageDirectory(), "demo4.gif");
+            list.add(new GIfBean(file3.getAbsolutePath()));
+            list.add(new GIfBean(file4.getAbsolutePath()));
+        }
+        recyclerView.setAdapter(new ImageAdapter(list, this));
+
     }
 
-    Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            int mNextFrame = gifHandler.updateFrame(bitmap);
-            handler.sendEmptyMessageDelayed(1, mNextFrame);
-            imageView.setImageBitmap(bitmap);
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Iterator<GIfBean> iterator = list.iterator();
+        while (iterator.hasNext()) {
+            GIfBean bean = iterator.next();
+            bean.clear();
+            iterator.remove();
+            bean = null;
         }
-    };
-
+    }
 }

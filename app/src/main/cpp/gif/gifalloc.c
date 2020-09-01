@@ -18,8 +18,7 @@
 
 /* return smallest bitfield size n will fit in */
 int
-GifBitSize(int n)
-{
+GifBitSize(int n) {
     register int i;
 
     for (i = 1; i <= 8; i++)
@@ -37,8 +36,7 @@ GifBitSize(int n)
  * ColorMap if that pointer is non-NULL.
  */
 ColorMapObject *
-GifMakeMapObject(int ColorCount, const GifColorType *ColorMap)
-{
+GifMakeMapObject(int ColorCount, const GifColorType *ColorMap) {
     ColorMapObject *Object;
 
     /*** FIXME: Our ColorCount has to be a power of two.  Is it necessary to
@@ -46,15 +44,15 @@ GifMakeMapObject(int ColorCount, const GifColorType *ColorMap)
     if (ColorCount != (1 << GifBitSize(ColorCount))) {
         return ((ColorMapObject *) NULL);
     }
-    
-    Object = (ColorMapObject *)malloc(sizeof(ColorMapObject));
+
+    Object = (ColorMapObject *) malloc(sizeof(ColorMapObject));
     if (Object == (ColorMapObject *) NULL) {
         return ((ColorMapObject *) NULL);
     }
 
-    Object->Colors = (GifColorType *)calloc(ColorCount, sizeof(GifColorType));
+    Object->Colors = (GifColorType *) calloc(ColorCount, sizeof(GifColorType));
     if (Object->Colors == (GifColorType *) NULL) {
-	free(Object);
+        free(Object);
         return ((ColorMapObject *) NULL);
     }
 
@@ -62,8 +60,8 @@ GifMakeMapObject(int ColorCount, const GifColorType *ColorMap)
     Object->BitsPerPixel = GifBitSize(ColorCount);
 
     if (ColorMap != NULL) {
-        memcpy((char *)Object->Colors,
-               (char *)ColorMap, ColorCount * sizeof(GifColorType));
+        memcpy((char *) Object->Colors,
+               (char *) ColorMap, ColorCount * sizeof(GifColorType));
     }
 
     return (Object);
@@ -73,11 +71,10 @@ GifMakeMapObject(int ColorCount, const GifColorType *ColorMap)
 Free a color map object
 *******************************************************************************/
 void
-GifFreeMapObject(ColorMapObject *Object)
-{
+GifFreeMapObject(ColorMapObject *Object) {
     if (Object != NULL) {
-        (void)free(Object->Colors);
-        (void)free(Object);
+        (void) free(Object->Colors);
+        (void) free(Object);
     }
 }
 
@@ -92,9 +89,9 @@ DumpColorMap(ColorMapObject *Object,
         for (i = 0; i < Len; i += 4) {
             for (j = 0; j < 4 && j < Len; j++) {
                 (void)fprintf(fp, "%3d: %02x %02x %02x   ", i + j,
-			      Object->Colors[i + j].Red,
-			      Object->Colors[i + j].Green,
-			      Object->Colors[i + j].Blue);
+                  Object->Colors[i + j].Red,
+                  Object->Colors[i + j].Green,
+                  Object->Colors[i + j].Blue);
             }
             (void)fprintf(fp, "\n");
         }
@@ -111,9 +108,8 @@ DumpColorMap(ColorMapObject *Object,
 *******************************************************************************/
 ColorMapObject *
 GifUnionColorMap(const ColorMapObject *ColorIn1,
-              const ColorMapObject *ColorIn2,
-              GifPixelType ColorTransIn2[])
-{
+                 const ColorMapObject *ColorIn2,
+                 GifPixelType ColorTransIn2[]) {
     int i, j, CrntSlot, RoundUpTo, NewGifBitSize;
     ColorMapObject *ColorUnion;
 
@@ -125,7 +121,7 @@ GifUnionColorMap(const ColorMapObject *ColorIn1,
 
     /* Allocate table which will hold the result for sure. */
     ColorUnion = GifMakeMapObject(MAX(ColorIn1->ColorCount,
-                               ColorIn2->ColorCount) * 2, NULL);
+                                      ColorIn2->ColorCount) * 2, NULL);
 
     if (ColorUnion == NULL)
         return (NULL);
@@ -153,8 +149,8 @@ GifUnionColorMap(const ColorMapObject *ColorIn1,
     for (i = 0; i < ColorIn2->ColorCount && CrntSlot <= 256; i++) {
         /* Let's see if this color already exists: */
         for (j = 0; j < ColorIn1->ColorCount; j++)
-            if (memcmp (&ColorIn1->Colors[j], &ColorIn2->Colors[i], 
-                        sizeof(GifColorType)) == 0)
+            if (memcmp(&ColorIn1->Colors[j], &ColorIn2->Colors[i],
+                       sizeof(GifColorType)) == 0)
                 break;
 
         if (j < ColorIn1->ColorCount)
@@ -187,8 +183,8 @@ GifUnionColorMap(const ColorMapObject *ColorIn1,
 
         /* perhaps we can shrink the map? */
         if (RoundUpTo < ColorUnion->ColorCount)
-            ColorUnion->Colors = (GifColorType *)realloc(Map,
-                                 sizeof(GifColorType) * RoundUpTo);
+            ColorUnion->Colors = (GifColorType *) realloc(Map,
+                                                          sizeof(GifColorType) * RoundUpTo);
     }
 
     ColorUnion->ColorCount = RoundUpTo;
@@ -201,8 +197,7 @@ GifUnionColorMap(const ColorMapObject *ColorIn1,
  Apply a given color translation to the raster bits of an image
 *******************************************************************************/
 void
-GifApplyTranslation(SavedImage *Image, GifPixelType Translation[])
-{
+GifApplyTranslation(SavedImage *Image, GifPixelType Translation[]) {
     register int i;
     register int RasterSize = Image->ImageDesc.Height * Image->ImageDesc.Width;
 
@@ -215,19 +210,18 @@ GifApplyTranslation(SavedImage *Image, GifPixelType Translation[])
 ******************************************************************************/
 int
 GifAddExtensionBlock(int *ExtensionBlockCount,
-		     ExtensionBlock **ExtensionBlocks,
-		     int Function,
-		     unsigned int Len,
-		     unsigned char ExtData[])
-{
+                     ExtensionBlock **ExtensionBlocks,
+                     int Function,
+                     unsigned int Len,
+                     unsigned char ExtData[]) {
     ExtensionBlock *ep;
 
     if (*ExtensionBlocks == NULL)
-        *ExtensionBlocks=(ExtensionBlock *)malloc(sizeof(ExtensionBlock));
+        *ExtensionBlocks = (ExtensionBlock *) malloc(sizeof(ExtensionBlock));
     else
-        *ExtensionBlocks = (ExtensionBlock *)realloc(*ExtensionBlocks,
-                                      sizeof(ExtensionBlock) *
-                                      (*ExtensionBlockCount + 1));
+        *ExtensionBlocks = (ExtensionBlock *) realloc(*ExtensionBlocks,
+                                                      sizeof(ExtensionBlock) *
+                                                      (*ExtensionBlockCount + 1));
 
     if (*ExtensionBlocks == NULL)
         return (GIF_ERROR);
@@ -235,8 +229,8 @@ GifAddExtensionBlock(int *ExtensionBlockCount,
     ep = &(*ExtensionBlocks)[(*ExtensionBlockCount)++];
 
     ep->Function = Function;
-    ep->ByteCount=Len;
-    ep->Bytes = (GifByteType *)malloc(ep->ByteCount);
+    ep->ByteCount = Len;
+    ep->Bytes = (GifByteType *) malloc(ep->ByteCount);
     if (ep->Bytes == NULL)
         return (GIF_ERROR);
 
@@ -249,18 +243,17 @@ GifAddExtensionBlock(int *ExtensionBlockCount,
 
 void
 GifFreeExtensions(int *ExtensionBlockCount,
-		  ExtensionBlock **ExtensionBlocks)
-{
+                  ExtensionBlock **ExtensionBlocks) {
     ExtensionBlock *ep;
 
     if (*ExtensionBlocks == NULL)
         return;
 
     for (ep = *ExtensionBlocks;
-	 ep < (*ExtensionBlocks + *ExtensionBlockCount); 
-	 ep++)
-        (void)free((char *)ep->Bytes);
-    (void)free((char *)*ExtensionBlocks);
+         ep < (*ExtensionBlocks + *ExtensionBlockCount);
+         ep++)
+        (void) free((char *) ep->Bytes);
+    (void) free((char *) *ExtensionBlocks);
     *ExtensionBlocks = NULL;
     *ExtensionBlockCount = 0;
 }
@@ -273,10 +266,9 @@ GifFreeExtensions(int *ExtensionBlockCount,
  * Frees the last image in the GifFile->SavedImages array
  */
 void
-FreeLastSavedImage(GifFileType *GifFile)
-{
+FreeLastSavedImage(GifFileType *GifFile) {
     SavedImage *sp;
-    
+
     if ((GifFile == NULL) || (GifFile->SavedImages == NULL))
         return;
 
@@ -292,7 +284,7 @@ FreeLastSavedImage(GifFileType *GifFile)
 
     /* Deallocate the image data */
     if (sp->RasterBits != NULL)
-        free((char *)sp->RasterBits);
+        free((char *) sp->RasterBits);
 
     /* Deallocate any extensions */
     GifFreeExtensions(&sp->ExtensionBlockCount, &sp->ExtensionBlocks);
@@ -309,24 +301,24 @@ FreeLastSavedImage(GifFileType *GifFile)
  * Append an image block to the SavedImages array  
  */
 SavedImage *
-GifMakeSavedImage(GifFileType *GifFile, const SavedImage *CopyFrom)
-{
+GifMakeSavedImage(GifFileType *GifFile, const SavedImage *CopyFrom) {
     SavedImage *sp;
 
     if (GifFile->SavedImages == NULL)
-        GifFile->SavedImages = (SavedImage *)malloc(sizeof(SavedImage));
+        GifFile->SavedImages = (SavedImage *) malloc(sizeof(SavedImage));
     else
-        GifFile->SavedImages = (SavedImage *)realloc(GifFile->SavedImages,
-                               sizeof(SavedImage) * (GifFile->ImageCount + 1));
+        GifFile->SavedImages = (SavedImage *) realloc(GifFile->SavedImages,
+                                                      sizeof(SavedImage) *
+                                                      (GifFile->ImageCount + 1));
 
     if (GifFile->SavedImages == NULL)
-        return ((SavedImage *)NULL);
+        return ((SavedImage *) NULL);
     else {
         sp = &GifFile->SavedImages[GifFile->ImageCount++];
-        memset((char *)sp, '\0', sizeof(SavedImage));
+        memset((char *) sp, '\0', sizeof(SavedImage));
 
         if (CopyFrom != NULL) {
-            memcpy((char *)sp, CopyFrom, sizeof(SavedImage));
+            memcpy((char *) sp, CopyFrom, sizeof(SavedImage));
 
             /* 
              * Make our own allocated copies of the heap fields in the
@@ -337,21 +329,21 @@ GifMakeSavedImage(GifFileType *GifFile, const SavedImage *CopyFrom)
             /* first, the local color map */
             if (sp->ImageDesc.ColorMap != NULL) {
                 sp->ImageDesc.ColorMap = GifMakeMapObject(
-                                         CopyFrom->ImageDesc.ColorMap->ColorCount,
-                                         CopyFrom->ImageDesc.ColorMap->Colors);
+                        CopyFrom->ImageDesc.ColorMap->ColorCount,
+                        CopyFrom->ImageDesc.ColorMap->Colors);
                 if (sp->ImageDesc.ColorMap == NULL) {
                     FreeLastSavedImage(GifFile);
-                    return (SavedImage *)(NULL);
+                    return (SavedImage *) (NULL);
                 }
             }
 
             /* next, the raster */
-            sp->RasterBits = (unsigned char *)malloc(sizeof(GifPixelType) *
-                                                   CopyFrom->ImageDesc.Height *
-                                                   CopyFrom->ImageDesc.Width);
+            sp->RasterBits = (unsigned char *) malloc(sizeof(GifPixelType) *
+                                                      CopyFrom->ImageDesc.Height *
+                                                      CopyFrom->ImageDesc.Width);
             if (sp->RasterBits == NULL) {
                 FreeLastSavedImage(GifFile);
-                return (SavedImage *)(NULL);
+                return (SavedImage *) (NULL);
             }
             memcpy(sp->RasterBits, CopyFrom->RasterBits,
                    sizeof(GifPixelType) * CopyFrom->ImageDesc.Height *
@@ -359,12 +351,12 @@ GifMakeSavedImage(GifFileType *GifFile, const SavedImage *CopyFrom)
 
             /* finally, the extension blocks */
             if (sp->ExtensionBlocks != NULL) {
-                sp->ExtensionBlocks = (ExtensionBlock *)malloc(
-                                      sizeof(ExtensionBlock) *
-                                      CopyFrom->ExtensionBlockCount);
+                sp->ExtensionBlocks = (ExtensionBlock *) malloc(
+                        sizeof(ExtensionBlock) *
+                        CopyFrom->ExtensionBlockCount);
                 if (sp->ExtensionBlocks == NULL) {
                     FreeLastSavedImage(GifFile);
-                    return (SavedImage *)(NULL);
+                    return (SavedImage *) (NULL);
                 }
                 memcpy(sp->ExtensionBlocks, CopyFrom->ExtensionBlocks,
                        sizeof(ExtensionBlock) * CopyFrom->ExtensionBlockCount);
@@ -376,8 +368,7 @@ GifMakeSavedImage(GifFileType *GifFile, const SavedImage *CopyFrom)
 }
 
 void
-GifFreeSavedImages(GifFileType *GifFile)
-{
+GifFreeSavedImages(GifFileType *GifFile) {
     SavedImage *sp;
 
     if ((GifFile == NULL) || (GifFile->SavedImages == NULL)) {
@@ -391,11 +382,11 @@ GifFreeSavedImages(GifFileType *GifFile)
         }
 
         if (sp->RasterBits != NULL)
-            free((char *)sp->RasterBits);
-	
-	GifFreeExtensions(&sp->ExtensionBlockCount, &sp->ExtensionBlocks);
+            free((char *) sp->RasterBits);
+
+        GifFreeExtensions(&sp->ExtensionBlockCount, &sp->ExtensionBlocks);
     }
-    free((char *)GifFile->SavedImages);
+    free((char *) GifFile->SavedImages);
     GifFile->SavedImages = NULL;
 }
 
